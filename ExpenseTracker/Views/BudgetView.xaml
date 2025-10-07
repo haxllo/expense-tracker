@@ -14,6 +14,20 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto">
+    <Window.Resources>
+        <!-- Custom Button Style - No Shadow on Hover, Reduced Contrast -->
+        <Style x:Key="NoShadowRaisedButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+            <Setter Property="Background" Value="#171717"/>
+            <Setter Property="Foreground" Value="#FAFAFA"/>
+            <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#404040"/>
+                    <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -119,9 +133,7 @@
                 </StackPanel>
             </Button>
             <Button Command="{Binding SaveCommand}"
-                   Style="{StaticResource MaterialDesignRaisedButton}"
-                   Background="#171717"
-                   Foreground="#FAFAFA"
+                   Style="{StaticResource NoShadowRaisedButton}"
                    Height="44"
                    Padding="24,0"
                    materialDesign:ButtonAssist.CornerRadius="8">
