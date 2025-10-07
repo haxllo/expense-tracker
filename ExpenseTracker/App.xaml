@@ -6,7 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- Default theme will be loaded programmatically -->
+                <!-- V0.dev Inspired Modern Theme -->
+                <ResourceDictionary Source="Themes/ModernTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
