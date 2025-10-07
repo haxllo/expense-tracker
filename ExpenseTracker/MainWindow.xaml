@@ -347,9 +347,9 @@
         </Grid>
 
         <!-- Filters and Search -->
-        <Border Grid.Row="2" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="10" Padding="20">
+        <Border Grid.Row="2" Background="{DynamicResource GlassCardBrush}" CornerRadius="16" Padding="24" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                <DropShadowEffect Color="{DynamicResource ShadowColor}" BlurRadius="20" ShadowDepth="0" Opacity="1"/>
             </Border.Effect>
             <Grid>
                 <Grid.RowDefinitions>
@@ -366,7 +366,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBox Grid.Column="0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                            FontSize="14" Padding="10" BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1"
+                            FontSize="13" Padding="12" BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1"
                             Foreground="{DynamicResource InputTextBrush}">
                         <TextBox.Style>
                             <Style TargetType="TextBox">
@@ -375,10 +375,10 @@
                                         <ControlTemplate TargetType="TextBox">
                                             <Border Background="{DynamicResource InputBackgroundBrush}" BorderBrush="{TemplateBinding BorderBrush}"
                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                   CornerRadius="5">
+                                                   CornerRadius="10">
                                                 <Grid>
                                                     <TextBlock Text="🔍 Search expenses..." 
-                                                              Foreground="{DynamicResource TertiaryTextBrush}" Padding="10"
+                                                              Foreground="{DynamicResource TertiaryTextBrush}" Padding="12" FontSize="13" Opacity="0.6"
                                                               IsHitTestVisible="False"
                                                               Visibility="{Binding Text.Length, RelativeSource={RelativeSource TemplatedParent}, 
                                                                           Converter={StaticResource TextLengthToVisibilityConverter}}"/>
@@ -392,88 +392,108 @@
                         </TextBox.Style>
                     </TextBox>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="10,0,0,0">
-                        <TextBlock Text="From:" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="16,0,0,0">
+                        <TextBlock Text="From:" VerticalAlignment="Center" Margin="0,0,8,0" 
+                                  Foreground="{DynamicResource SecondaryTextBrush}" FontSize="11" FontWeight="Medium" Opacity="0.8"/>
                         <DatePicker SelectedDate="{Binding FilterStartDate}" 
-                                   Width="120" Margin="0,0,10,0"/>
-                        <TextBlock Text="To:" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="{DynamicResource PrimaryTextBrush}"/>
-                        <DatePicker SelectedDate="{Binding FilterEndDate}" Width="120"/>
+                                   Width="130" Height="38" Margin="0,0,12,0"
+                                   Background="{DynamicResource InputBackgroundBrush}"
+                                   BorderBrush="{DynamicResource InputBorderBrush}"
+                                   Foreground="{DynamicResource InputTextBrush}"/>
+                        <TextBlock Text="To:" VerticalAlignment="Center" Margin="0,0,8,0" 
+                                  Foreground="{DynamicResource SecondaryTextBrush}" FontSize="11" FontWeight="Medium" Opacity="0.8"/>
+                        <DatePicker SelectedDate="{Binding FilterEndDate}" Width="130" Height="38"
+                                   Background="{DynamicResource InputBackgroundBrush}"
+                                   BorderBrush="{DynamicResource InputBorderBrush}"
+                                   Foreground="{DynamicResource InputTextBrush}"/>
                     </StackPanel>
 
                     <!-- Sort Options -->
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="15,0,0,0">
-                        <TextBlock Text="Sort by:" VerticalAlignment="Center" Margin="0,0,8,0" 
-                                  Foreground="{DynamicResource PrimaryTextBrush}" FontSize="12"/>
-                        <Button Content="📅 Date" Command="{Binding SortCommand}" CommandParameter="Date"
-                               Padding="8,5" Margin="2,0" FontSize="11" 
-                               Background="{DynamicResource ButtonBackgroundBrush}" Foreground="White" 
-                               BorderThickness="0" Cursor="Hand">
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="20,0,0,0">
+                        <TextBlock Text="Sort:" VerticalAlignment="Center" Margin="0,0,6,0" 
+                                  Foreground="{DynamicResource SecondaryTextBrush}" FontSize="10" FontWeight="Medium" Opacity="0.7"/>
+                        <Button Content="Date" Command="{Binding SortCommand}" CommandParameter="Date"
+                               Padding="10,6" Margin="3,0" FontSize="10" FontWeight="Medium"
+                               Foreground="{DynamicResource SecondaryTextBrush}" 
+                               BorderThickness="1" Cursor="Hand">
                             <Button.Style>
                                 <Style TargetType="Button">
+                                    <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}" 
-                                                       CornerRadius="3" Padding="{TemplateBinding Padding}">
-                                                    <ContentPresenter HorizontalAlignment="Center" 
-                                                                    VerticalAlignment="Center"/>
+                                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                                       CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource ButtonHoverBrush}"/>
+                                            <Setter Property="Background" Value="#21262D"/>
+                                            <Setter Property="BorderBrush" Value="{DynamicResource NeonCyanBrush}"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Content="💰 Amount" Command="{Binding SortCommand}" CommandParameter="Amount"
-                               Padding="8,5" Margin="2,0" FontSize="11" 
-                               Background="{DynamicResource ButtonBackgroundBrush}" Foreground="White" 
-                               BorderThickness="0" Cursor="Hand">
+                        <Button Content="Amount" Command="{Binding SortCommand}" CommandParameter="Amount"
+                               Padding="10,6" Margin="3,0" FontSize="10" FontWeight="Medium"
+                               Foreground="{DynamicResource SecondaryTextBrush}" 
+                               BorderThickness="1" Cursor="Hand">
                             <Button.Style>
                                 <Style TargetType="Button">
+                                    <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}" 
-                                                       CornerRadius="3" Padding="{TemplateBinding Padding}">
-                                                    <ContentPresenter HorizontalAlignment="Center" 
-                                                                    VerticalAlignment="Center"/>
+                                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                                       CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource ButtonHoverBrush}"/>
+                                            <Setter Property="Background" Value="#21262D"/>
+                                            <Setter Property="BorderBrush" Value="{DynamicResource NeonCyanBrush}"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Content="🏷️ Category" Command="{Binding SortCommand}" CommandParameter="Category"
-                               Padding="8,5" Margin="2,0" FontSize="11" 
-                               Background="{DynamicResource ButtonBackgroundBrush}" Foreground="White" 
-                               BorderThickness="0" Cursor="Hand">
+                        <Button Content="Category" Command="{Binding SortCommand}" CommandParameter="Category"
+                               Padding="10,6" Margin="3,0" FontSize="10" FontWeight="Medium"
+                               Foreground="{DynamicResource SecondaryTextBrush}" 
+                               BorderThickness="1" Cursor="Hand">
                             <Button.Style>
                                 <Style TargetType="Button">
+                                    <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}" 
-                                                       CornerRadius="3" Padding="{TemplateBinding Padding}">
-                                                    <ContentPresenter HorizontalAlignment="Center" 
-                                                                    VerticalAlignment="Center"/>
+                                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                                       CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource ButtonHoverBrush}"/>
+                                            <Setter Property="Background" Value="#21262D"/>
+                                            <Setter Property="BorderBrush" Value="{DynamicResource NeonCyanBrush}"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -488,23 +508,81 @@
                          AutoGenerateColumns="False" CanUserAddRows="False"
                          HeadersVisibility="Column" GridLinesVisibility="None"
                          Background="Transparent" BorderThickness="0"
-                         RowHeight="50" FontSize="14">
+                         RowHeight="48" FontSize="13">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Setter Property="Padding" Value="12,10"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Padding" Value="12,0"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.CellStyle>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=dd/MM/yyyy}" 
-                                          Width="120"/>
-                        <DataGridTextColumn Header="Category" Binding="{Binding Category.Name}" 
-                                          Width="150"/>
-                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" 
-                                          Width="*"/>
-                        <DataGridTextColumn Header="Payment" Binding="{Binding PaymentMethod}" 
-                                          Width="120"/>
-                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=₹{0:N2}}" 
+                        <DataGridTextColumn Header="DATE" Binding="{Binding Date, StringFormat=dd/MM/yyyy}" 
                                           Width="120">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+                                    <Setter Property="FontSize" Value="12"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="CATEGORY" Binding="{Binding Category.Name}" 
+                                          Width="140">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="FontWeight" Value="Medium"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="DESCRIPTION" Binding="{Binding Description}" 
+                                          Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+                                    <Setter Property="FontSize" Value="12"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="PAYMENT" Binding="{Binding PaymentMethod}" 
+                                          Width="110">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+                                    <Setter Property="FontSize" Value="12"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="AMOUNT" Binding="{Binding Amount, StringFormat=₹{0:N2}}" 
+                                          Width="130">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
                                     <Setter Property="FontWeight" Value="SemiBold"/>
-                                    <Setter Property="Foreground" Value="#E91E63"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource NeonPinkBrush}"/>
                                     <Setter Property="HorizontalAlignment" Value="Right"/>
+                                    <Setter Property="FontSize" Value="14"/>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
@@ -513,12 +591,15 @@
                         <Style TargetType="DataGridRow">
                             <Setter Property="Background" Value="{DynamicResource DataGridRowBrush}"/>
                             <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Background" Value="{DynamicResource DataGridAlternateRowBrush}"/>
                                 </Trigger>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="{DynamicResource DataGridSelectedBrush}"/>
+                                    <Setter Property="Background" Value="#1C2128"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource NeonCyanBrush}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -531,56 +612,80 @@
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" 
                    Margin="0,15,0,0">
             <Button Content="✏️ Edit" Command="{Binding EditExpenseCommand}"
-                   Padding="20,10" Margin="5,0" FontSize="14"
-                   Background="#FF9800" Foreground="White" BorderThickness="0">
+                   Padding="18,10" Margin="6,0" FontSize="13" FontWeight="SemiBold"
+                   Foreground="White" BorderThickness="1" Cursor="Hand">
                 <Button.Style>
                     <Style TargetType="Button">
+                        <Setter Property="Background" Value="{DynamicResource NeonAmberBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource NeonAmberBrush}"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="{TemplateBinding Background}" 
-                                           CornerRadius="5" Padding="{TemplateBinding Padding}">
-                                        <ContentPresenter HorizontalAlignment="Center" 
-                                                        VerticalAlignment="Center"/>
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                           BorderThickness="{TemplateBinding BorderThickness}"
+                                           CornerRadius="10" Padding="{TemplateBinding Padding}">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="#F59E0B" BlurRadius="12" ShadowDepth="0" Opacity="0.4"/>
+                                        </Border.Effect>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
-                        <Setter Property="Cursor" Value="Hand"/>
                         <Style.Triggers>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" Value="0.5"/>
+                                <Setter Property="Opacity" Value="0.4"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#F57C00"/>
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#F59E0B" Offset="0"/>
+                                            <GradientStop Color="#FBBF24" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
             </Button>
             <Button Content="🗑️ Delete" Command="{Binding DeleteExpenseCommand}"
-                   Padding="20,10" Margin="5,0" FontSize="14"
-                   Background="#F44336" Foreground="White" BorderThickness="0">
+                   Padding="18,10" Margin="6,0" FontSize="13" FontWeight="SemiBold"
+                   Foreground="White" BorderThickness="1" Cursor="Hand">
                 <Button.Style>
                     <Style TargetType="Button">
+                        <Setter Property="Background" Value="{DynamicResource NeonPinkBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource NeonPinkBrush}"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="{TemplateBinding Background}" 
-                                           CornerRadius="5" Padding="{TemplateBinding Padding}">
-                                        <ContentPresenter HorizontalAlignment="Center" 
-                                                        VerticalAlignment="Center"/>
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                           BorderThickness="{TemplateBinding BorderThickness}"
+                                           CornerRadius="10" Padding="{TemplateBinding Padding}">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="#EC4899" BlurRadius="12" ShadowDepth="0" Opacity="0.4"/>
+                                        </Border.Effect>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
-                        <Setter Property="Cursor" Value="Hand"/>
                         <Style.Triggers>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" Value="0.5"/>
+                                <Setter Property="Opacity" Value="0.4"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#D32F2F"/>
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#EC4899" Offset="0"/>
+                                            <GradientStop Color="#F472B6" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
