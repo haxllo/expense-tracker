@@ -8,7 +8,7 @@
         ResizeMode="NoResize"
         UseLayoutRounding="True"
         SnapsToDevicePixels="True"
-        FontFamily="{materialDesign:MaterialDesignFont}"
+        FontFamily="{StaticResource PrimaryFont}"
         TextElement.Foreground="{StaticResource TextPrimaryBrush}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"

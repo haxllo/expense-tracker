@@ -51,8 +51,10 @@
     <!-- ========== TYPOGRAPHY ========== -->
     
     <!-- Font Families -->
-    <FontFamily x:Key="PrimaryFont">Segoe UI, Inter, Poppins, SF Pro Display, Arial</FontFamily>
-    <FontFamily x:Key="MonoFont">Consolas, SF Mono, Monaco</FontFamily>
+    <!-- Geist Sans as primary font with fallbacks -->
+    <FontFamily x:Key="PrimaryFont">Geist, Segoe UI, Inter, -apple-system, system-ui, Arial</FontFamily>
+    <!-- Geist Mono as monospace font with fallbacks -->
+    <FontFamily x:Key="MonoFont">Geist Mono, Consolas, SF Mono, Monaco, Courier New</FontFamily>
     
     <!-- Font Sizes -->
     <System:Double xmlns:System="clr-namespace:System;assembly=mscorlib" x:Key="FontSize10">10</System:Double>

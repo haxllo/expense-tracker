@@ -9,7 +9,7 @@
         MinHeight="600" MinWidth="480"
         UseLayoutRounding="True"
         SnapsToDevicePixels="True"
-        FontFamily="{materialDesign:MaterialDesignFont}"
+        FontFamily="{StaticResource PrimaryFont}"
         TextElement.Foreground="{StaticResource TextPrimaryBrush}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
