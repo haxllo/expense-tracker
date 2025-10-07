@@ -1,0 +1,247 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using ExpenseTracker.Helpers;
+using ExpenseTracker.Services;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
+
+namespace ExpenseTracker.ViewModels
+{
+    public class ReportsViewModel : ViewModelBase
+    {
+        private DateTime _startDate;
+        private DateTime _endDate;
+        private IEnumerable<ISeries> _categoryPieChart;
+        private IEnumerable<ISeries> _monthlyBarChart;
+        private IEnumerable<ISeries> _dailyLineChart;
+        private ObservableCollection<string> _monthlyLabels;
+        private ObservableCollection<string> _dailyLabels;
+        private IEnumerable<LiveChartsCore.Kernel.Sketches.ICartesianAxis> _monthlyXAxis;
+        private IEnumerable<LiveChartsCore.Kernel.Sketches.ICartesianAxis> _dailyXAxis;
+        private decimal _totalAmount;
+        private decimal _averageDaily;
+        private string _topCategory;
+
+        public ReportsViewModel()
+        {
+            _startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            _endDate = DateTime.Now.Date.AddDays(1).AddSeconds(-1);
+            _categoryPieChart = Array.Empty<ISeries>();
+            _monthlyBarChart = Array.Empty<ISeries>();
+            _dailyLineChart = Array.Empty<ISeries>();
+            _monthlyLabels = new ObservableCollection<string>();
+            _dailyLabels = new ObservableCollection<string>();
+            _monthlyXAxis = new[] { new Axis { Labels = _monthlyLabels } };
+            _dailyXAxis = new[] { new Axis { Labels = _dailyLabels } };
+            _topCategory = "N/A";
+
+            RefreshCommand = new RelayCommand(async _ => await LoadChartsDataAsync());
+            
+            _ = LoadChartsDataAsync();
+        }
+
+        public DateTime StartDate
+        {
+            get => _startDate;
+            set
+            {
+                if (SetProperty(ref _startDate, value))
+                {
+                    _ = LoadChartsDataAsync();
+                }
+            }
+        }
+
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set
+            {
+                if (SetProperty(ref _endDate, value))
+                {
+                    _ = LoadChartsDataAsync();
+                }
+            }
+        }
+
+        public IEnumerable<ISeries> CategoryPieChart
+        {
+            get => _categoryPieChart;
+            set => SetProperty(ref _categoryPieChart, value);
+        }
+
+        public IEnumerable<ISeries> MonthlyBarChart
+        {
+            get => _monthlyBarChart;
+            set => SetProperty(ref _monthlyBarChart, value);
+        }
+
+        public IEnumerable<ISeries> DailyLineChart
+        {
+            get => _dailyLineChart;
+            set => SetProperty(ref _dailyLineChart, value);
+        }
+
+        public ObservableCollection<string> MonthlyLabels
+        {
+            get => _monthlyLabels;
+            set => SetProperty(ref _monthlyLabels, value);
+        }
+
+        public ObservableCollection<string> DailyLabels
+        {
+            get => _dailyLabels;
+            set => SetProperty(ref _dailyLabels, value);
+        }
+
+        public IEnumerable<LiveChartsCore.Kernel.Sketches.ICartesianAxis> MonthlyXAxis
+        {
+            get => _monthlyXAxis;
+            set => SetProperty(ref _monthlyXAxis, value);
+        }
+
+        public IEnumerable<LiveChartsCore.Kernel.Sketches.ICartesianAxis> DailyXAxis
+        {
+            get => _dailyXAxis;
+            set => SetProperty(ref _dailyXAxis, value);
+        }
+
+        public decimal TotalAmount
+        {
+            get => _totalAmount;
+            set => SetProperty(ref _totalAmount, value);
+        }
+
+        public decimal AverageDaily
+        {
+            get => _averageDaily;
+            set => SetProperty(ref _averageDaily, value);
+        }
+
+        public string TopCategory
+        {
+            get => _topCategory;
+            set => SetProperty(ref _topCategory, value);
+        }
+
+        public ICommand RefreshCommand { get; }
+
+        private async Task LoadChartsDataAsync()
+        {
+            using (var dataService = new DataService())
+            {
+                var expenses = await dataService.GetExpensesAsync(StartDate, EndDate);
+
+                if (!expenses.Any())
+                {
+                    CategoryPieChart = Array.Empty<ISeries>();
+                    MonthlyBarChart = Array.Empty<ISeries>();
+                    DailyLineChart = Array.Empty<ISeries>();
+                    TotalAmount = 0;
+                    AverageDaily = 0;
+                    TopCategory = "No Data";
+                    return;
+                }
+
+                // Category Pie Chart
+                var categoryData = expenses
+                    .GroupBy(e => e.Category?.Name ?? "Unknown")
+                    .Select(g => new { Category = g.Key, Total = g.Sum(e => e.Amount) })
+                    .OrderByDescending(x => x.Total)
+                    .ToList();
+
+                var pieSeriesList = new List<ISeries>();
+                foreach (var item in categoryData)
+                {
+                    pieSeriesList.Add(new PieSeries<double>
+                    {
+                        Name = item.Category,
+                        Values = new[] { (double)item.Total },
+                        DataLabelsSize = 14,
+                        DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle,
+                        DataLabelsFormatter = point => $"₹{point.PrimaryValue:N0}"
+                    });
+                }
+                CategoryPieChart = pieSeriesList;
+
+                // Monthly Bar Chart (last 6 months)
+                var sixMonthsAgo = DateTime.Now.AddMonths(-6);
+                var monthlyData = expenses
+                    .Where(e => e.Date >= sixMonthsAgo)
+                    .GroupBy(e => new { e.Date.Year, e.Date.Month })
+                    .Select(g => new
+                    {
+                        Year = g.Key.Year,
+                        Month = g.Key.Month,
+                        Total = g.Sum(e => e.Amount)
+                    })
+                    .OrderBy(x => x.Year)
+                    .ThenBy(x => x.Month)
+                    .ToList();
+
+                MonthlyLabels.Clear();
+                foreach (var m in monthlyData)
+                {
+                    MonthlyLabels.Add(new DateTime(m.Year, m.Month, 1).ToString("MMM yyyy"));
+                }
+
+                MonthlyBarChart = new List<ISeries>
+                {
+                    new ColumnSeries<double>
+                    {
+                        Name = "Monthly Expenses",
+                        Values = monthlyData.Select(m => (double)m.Total).ToArray(),
+                        DataLabelsSize = 12,
+                        DataLabelsPosition = LiveChartsCore.Measure.DataLabelsPosition.Top,
+                        DataLabelsFormatter = point => $"₹{point.PrimaryValue:N0}",
+                        Fill = new SolidColorPaint(SKColors.DeepSkyBlue),
+                        MaxBarWidth = 50
+                    }
+                };
+
+                // Daily Line Chart (last 30 days)
+                var thirtyDaysAgo = DateTime.Now.AddDays(-30);
+                var dailyData = new List<(DateTime Date, decimal Total)>();
+                
+                for (var date = thirtyDaysAgo.Date; date <= DateTime.Now.Date; date = date.AddDays(1))
+                {
+                    var total = expenses
+                        .Where(e => e.Date.Date == date)
+                        .Sum(e => e.Amount);
+                    dailyData.Add((date, total));
+                }
+
+                DailyLabels.Clear();
+                foreach (var d in dailyData)
+                {
+                    DailyLabels.Add(d.Date.ToString("MM/dd"));
+                }
+
+                DailyLineChart = new List<ISeries>
+                {
+                    new LineSeries<double>
+                    {
+                        Name = "Daily Expenses",
+                        Values = dailyData.Select(d => (double)d.Total).ToArray(),
+                        GeometrySize = 8,
+                        LineSmoothness = 0.5,
+                        Fill = null,
+                        Stroke = new SolidColorPaint(SKColors.Green) { StrokeThickness = 3 }
+                    }
+                };
+
+                // Summary Statistics
+                TotalAmount = expenses.Sum(e => e.Amount);
+                var days = (EndDate - StartDate).Days + 1;
+                AverageDaily = days > 0 ? TotalAmount / days : 0;
+                TopCategory = categoryData.FirstOrDefault()?.Category ?? "N/A";
+            }
+        }
+    }
+}

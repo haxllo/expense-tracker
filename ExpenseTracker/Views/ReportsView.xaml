@@ -1,0 +1,215 @@
+<Window x:Class="ExpenseTracker.Views.ReportsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        Title="Reports and Analytics" Height="800" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="📊" FontSize="32" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBlock Text="Reports and Analytics" FontSize="28" FontWeight="Bold" 
+                          VerticalAlignment="Center" Foreground="#333"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="🔄 Refresh" Command="{Binding RefreshCommand}"
+                       Padding="15,8" Margin="0,0,10,0" FontSize="14" FontWeight="SemiBold"
+                       Background="#2196F3" Foreground="White" BorderThickness="0">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                               CornerRadius="5" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#1976D2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="✖ Close" Click="CloseButton_Click"
+                       Padding="15,8" FontSize="14" FontWeight="SemiBold"
+                       Background="#757575" Foreground="White" BorderThickness="0">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                               CornerRadius="5" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#616161"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- Summary Cards & Date Filter -->
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Total Amount Card -->
+            <Border Grid.Column="0" Background="White" CornerRadius="10" 
+                   Padding="20" Margin="0,0,10,0">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="Total Expenses" FontSize="12" Foreground="#666" 
+                              Margin="0,0,0,5"/>
+                    <TextBlock Text="{Binding TotalAmount, StringFormat=₹{0:N2}}" 
+                              FontSize="24" FontWeight="Bold" Foreground="#E91E63"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Average Daily Card -->
+            <Border Grid.Column="1" Background="White" CornerRadius="10" 
+                   Padding="20" Margin="5,0">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="Daily Average" FontSize="12" Foreground="#666" 
+                              Margin="0,0,0,5"/>
+                    <TextBlock Text="{Binding AverageDaily, StringFormat=₹{0:N2}}" 
+                              FontSize="24" FontWeight="Bold" Foreground="#4CAF50"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Top Category Card -->
+            <Border Grid.Column="2" Background="White" CornerRadius="10" 
+                   Padding="20" Margin="5,0,10,0">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="Top Category" FontSize="12" Foreground="#666" 
+                              Margin="0,0,0,5"/>
+                    <TextBlock Text="{Binding TopCategory}" 
+                              FontSize="24" FontWeight="Bold" Foreground="#FF9800"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Date Range Selector -->
+            <Border Grid.Column="3" Background="White" CornerRadius="10" 
+                   Padding="15" Margin="10,0,0,0">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                </Border.Effect>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="From:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <DatePicker SelectedDate="{Binding StartDate}" 
+                               Width="100" Margin="0,0,10,0"/>
+                    <TextBlock Text="To:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <DatePicker SelectedDate="{Binding EndDate}" Width="100"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Charts Grid -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Category Pie Chart -->
+                <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="350"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Text="Expenses by Category" 
+                                  FontSize="18" FontWeight="SemiBold" Foreground="#333"
+                                  Margin="0,0,0,15"/>
+                        
+                        <lvc:PieChart Grid.Row="1" Series="{Binding CategoryPieChart}"
+                                     LegendPosition="Right"
+                                     InitialRotation="-90">
+                        </lvc:PieChart>
+                    </Grid>
+                </Border>
+
+                <!-- Monthly Bar Chart -->
+                <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="300"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Text="Monthly Spending Trends (Last 6 Months)" 
+                                  FontSize="18" FontWeight="SemiBold" Foreground="#333"
+                                  Margin="0,0,0,15"/>
+                        
+                        <lvc:CartesianChart Grid.Row="1" Series="{Binding MonthlyBarChart}"
+                                           XAxes="{Binding MonthlyXAxis}"
+                                           LegendPosition="Bottom">
+                        </lvc:CartesianChart>
+                    </Grid>
+                </Border>
+
+                <!-- Daily Line Chart -->
+                <Border Background="White" CornerRadius="10" Padding="20">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="300"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Text="Daily Spending Pattern (Last 30 Days)" 
+                                  FontSize="18" FontWeight="SemiBold" Foreground="#333"
+                                  Margin="0,0,0,15"/>
+                        
+                        <lvc:CartesianChart Grid.Row="1" Series="{Binding DailyLineChart}"
+                                           XAxes="{Binding DailyXAxis}"
+                                           LegendPosition="Bottom">
+                        </lvc:CartesianChart>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

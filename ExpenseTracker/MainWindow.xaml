@@ -78,6 +78,56 @@
                         </Style>
                     </Button.Style>
                 </Button>
+                <Button Content="💰 Budget" Command="{Binding ShowBudgetCommand}"
+                       Padding="15,8" Margin="5,0" FontSize="14" FontWeight="SemiBold"
+                       Background="#FF9800" Foreground="White" BorderThickness="0"
+                       Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                               CornerRadius="5" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#F57C00"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="📊 Reports" Command="{Binding ShowReportsCommand}"
+                       Padding="15,8" Margin="5,0" FontSize="14" FontWeight="SemiBold"
+                       Background="#9C27B0" Foreground="White" BorderThickness="0"
+                       Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                               CornerRadius="5" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7B1FA2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </StackPanel>
         </Grid>
 
@@ -86,33 +136,85 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <!-- Total Expenses Card -->
             <Border Grid.Column="0" Background="White" CornerRadius="10" 
-                   Padding="20" Margin="0,0,10,0">
+                   Padding="15" Margin="0,0,5,0">
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
                 </Border.Effect>
                 <StackPanel>
-                    <TextBlock Text="Total Expenses" FontSize="14" Foreground="#666" 
+                    <TextBlock Text="Total Expenses" FontSize="11" Foreground="#666" 
                               Margin="0,0,0,5"/>
-                    <TextBlock Text="{Binding TotalExpenses, StringFormat=₹{0:N2}}" 
-                              FontSize="32" FontWeight="Bold" Foreground="#E91E63"/>
+                    <TextBlock Text="{Binding TotalExpenses, StringFormat=₹{0:N0}}" 
+                              FontSize="24" FontWeight="Bold" Foreground="#E91E63"/>
                 </StackPanel>
             </Border>
 
-            <!-- Monthly Total Card -->
+            <!-- Monthly Total Card with Trend -->
             <Border Grid.Column="1" Background="White" CornerRadius="10" 
-                   Padding="20" Margin="10,0,0,0">
+                   Padding="15" Margin="5,0">
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
                 </Border.Effect>
                 <StackPanel>
-                    <TextBlock Text="This Month" FontSize="14" Foreground="#666" 
+                    <TextBlock Text="This Month" FontSize="11" Foreground="#666" 
                               Margin="0,0,0,5"/>
-                    <TextBlock Text="{Binding MonthlyTotal, StringFormat=₹{0:N2}}" 
-                              FontSize="32" FontWeight="Bold" Foreground="#4CAF50"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding MonthlyTotal, StringFormat=₹{0:N0}}" 
+                                  FontSize="24" FontWeight="Bold" Foreground="#4CAF50"/>
+                        <TextBlock Text="{Binding TrendIndicator}" 
+                                  FontSize="14" FontWeight="SemiBold" 
+                                  Foreground="{Binding TrendColor}"
+                                  VerticalAlignment="Bottom" Margin="8,0,0,2"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Weekly Total Card -->
+            <Border Grid.Column="2" Background="White" CornerRadius="10" 
+                   Padding="15" Margin="5,0">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="Last 7 Days" FontSize="11" Foreground="#666" 
+                              Margin="0,0,0,5"/>
+                    <TextBlock Text="{Binding WeeklyTotal, StringFormat=₹{0:N0}}" 
+                              FontSize="24" FontWeight="Bold" Foreground="#2196F3"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Average Daily Card -->
+            <Border Grid.Column="3" Background="White" CornerRadius="10" 
+                   Padding="15" Margin="5,0">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="Avg Daily (Month)" FontSize="11" Foreground="#666" 
+                              Margin="0,0,0,5"/>
+                    <TextBlock Text="{Binding AverageDaily, StringFormat=₹{0:N0}}" 
+                              FontSize="24" FontWeight="Bold" Foreground="#FF9800"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Top Category Card -->
+            <Border Grid.Column="4" Background="White" CornerRadius="10" 
+                   Padding="15" Margin="5,0,0,0">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="Top Category" FontSize="11" Foreground="#666" 
+                              Margin="0,0,0,5"/>
+                    <TextBlock Text="{Binding TopCategory}" 
+                              FontSize="18" FontWeight="Bold" Foreground="#9C27B0"
+                              TextTrimming="CharacterEllipsis"/>
                 </StackPanel>
             </Border>
         </Grid>

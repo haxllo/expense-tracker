@@ -17,6 +17,11 @@ namespace ExpenseTracker.ViewModels
         private Expense? _selectedExpense;
         private decimal _totalExpenses;
         private decimal _monthlyTotal;
+        private decimal _weeklyTotal;
+        private decimal _averageDaily;
+        private string _topCategory = "N/A";
+        private string _trendIndicator = "";
+        private string _trendColor = "#666";
         private string _searchText = string.Empty;
         private DateTime _filterStartDate;
         private DateTime _filterEndDate;
@@ -34,6 +39,8 @@ namespace ExpenseTracker.ViewModels
             DeleteExpenseCommand = new RelayCommand(_ => DeleteExpense(), _ => SelectedExpense != null);
             RefreshCommand = new RelayCommand(async _ => await LoadDataAsync());
             SearchCommand = new RelayCommand(async _ => await SearchExpensesAsync());
+            ShowBudgetCommand = new RelayCommand(async _ => await ShowBudgetAsync());
+            ShowReportsCommand = new RelayCommand(_ => ShowReports());
 
             InitializeAsync();
         }
@@ -66,6 +73,36 @@ namespace ExpenseTracker.ViewModels
         {
             get => _monthlyTotal;
             set => SetProperty(ref _monthlyTotal, value);
+        }
+
+        public decimal WeeklyTotal
+        {
+            get => _weeklyTotal;
+            set => SetProperty(ref _weeklyTotal, value);
+        }
+
+        public decimal AverageDaily
+        {
+            get => _averageDaily;
+            set => SetProperty(ref _averageDaily, value);
+        }
+
+        public string TopCategory
+        {
+            get => _topCategory;
+            set => SetProperty(ref _topCategory, value);
+        }
+
+        public string TrendIndicator
+        {
+            get => _trendIndicator;
+            set => SetProperty(ref _trendIndicator, value);
+        }
+
+        public string TrendColor
+        {
+            get => _trendColor;
+            set => SetProperty(ref _trendColor, value);
         }
 
         public string SearchText
@@ -103,6 +140,8 @@ namespace ExpenseTracker.ViewModels
         public ICommand DeleteExpenseCommand { get; }
         public ICommand RefreshCommand { get; }
         public ICommand SearchCommand { get; }
+        public ICommand ShowBudgetCommand { get; }
+        public ICommand ShowReportsCommand { get; }
 
         private async void InitializeAsync()
         {
@@ -136,10 +175,55 @@ namespace ExpenseTracker.ViewModels
                 }
 
                 TotalExpenses = await freshDataService.GetTotalExpensesAsync();
-                MonthlyTotal = await freshDataService.GetTotalExpensesAsync(
-                    new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),
-                    DateTime.Now
-                );
+                
+                // Calculate monthly total
+                var currentMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                MonthlyTotal = await freshDataService.GetTotalExpensesAsync(currentMonth, DateTime.Now);
+                
+                // Calculate last month total for trend
+                var lastMonth = currentMonth.AddMonths(-1);
+                var lastMonthEnd = currentMonth.AddDays(-1);
+                var lastMonthTotal = await freshDataService.GetTotalExpensesAsync(lastMonth, lastMonthEnd);
+                
+                // Calculate trend
+                if (lastMonthTotal > 0)
+                {
+                    var change = MonthlyTotal - lastMonthTotal;
+                    var percentChange = (change / lastMonthTotal) * 100;
+                    
+                    if (change > 0)
+                    {
+                        TrendIndicator = $"↑ {percentChange:F1}%";
+                        TrendColor = "#F44336"; // Red for increase
+                    }
+                    else if (change < 0)
+                    {
+                        TrendIndicator = $"↓ {Math.Abs(percentChange):F1}%";
+                        TrendColor = "#4CAF50"; // Green for decrease
+                    }
+                    else
+                    {
+                        TrendIndicator = "→ 0%";
+                        TrendColor = "#666"; // Gray for no change
+                    }
+                }
+                else
+                {
+                    TrendIndicator = "New";
+                    TrendColor = "#2196F3"; // Blue for new
+                }
+                
+                // Calculate weekly total (last 7 days)
+                var weekAgo = DateTime.Now.AddDays(-7);
+                WeeklyTotal = await freshDataService.GetTotalExpensesAsync(weekAgo, DateTime.Now);
+                
+                // Calculate average daily (this month)
+                var daysInMonth = (DateTime.Now - currentMonth).Days + 1;
+                AverageDaily = daysInMonth > 0 ? MonthlyTotal / daysInMonth : 0;
+                
+                // Get top category
+                var categoryExpenses = await freshDataService.GetExpensesByCategoryAsync(currentMonth, DateTime.Now);
+                TopCategory = categoryExpenses.OrderByDescending(x => x.Value).FirstOrDefault().Key ?? "N/A";
             }
         }
 
@@ -206,6 +290,21 @@ namespace ExpenseTracker.ViewModels
             }
             
             await LoadDataAsync();
+        }
+
+        private async Task ShowBudgetAsync()
+        {
+            var budgetView = new Views.BudgetView();
+            if (budgetView.ShowDialog() == true)
+            {
+                await LoadDataAsync();
+            }
+        }
+
+        private void ShowReports()
+        {
+            var reportsView = new Views.ReportsView();
+            reportsView.Show();
         }
     }
 }
