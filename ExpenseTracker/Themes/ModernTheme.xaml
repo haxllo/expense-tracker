@@ -434,4 +434,20 @@
         <Setter Property="FontWeight" Value="Medium"/>
     </Style>
     
+    <!-- Stats Value Style -->
+    <Style x:Key="StatsValue" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSize24}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    
+    <!-- Body Text Style -->
+    <Style x:Key="BodyText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSize13}"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+    </Style>
+    
 </ResourceDictionary>
