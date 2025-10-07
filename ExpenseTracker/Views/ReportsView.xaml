@@ -2,13 +2,18 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Reports and Analytics" Height="900" Width="1400"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource AppBackgroundBrush}"
         UseLayoutRounding="True"
         SnapsToDevicePixels="True"
-        TextOptions.TextFormattingMode="Display"
-        TextOptions.TextRenderingMode="ClearType">
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        TextElement.Foreground="{StaticResource TextPrimaryBrush}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -25,13 +30,29 @@
             <StackPanel Orientation="Horizontal" 
                        HorizontalAlignment="Right"
                        VerticalAlignment="Center">
-                <Button Content="Refresh" 
-                       Command="{Binding RefreshCommand}"
-                       Style="{StaticResource PrimaryButton}"
-                       Margin="0,0,8,0"/>
-                <Button Content="Close" 
-                       Click="CloseButton_Click"
-                       Style="{StaticResource SecondaryButton}"/>
+                <Button Command="{Binding RefreshCommand}"
+                       Style="{StaticResource MaterialDesignRaisedButton}"
+                       Background="#171717"
+                       Foreground="#FAFAFA"
+                       Height="40"
+                       Padding="20,0"
+                       Margin="0,0,8,0"
+                       materialDesign:ButtonAssist.CornerRadius="8">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Refresh" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Refresh" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Click="CloseButton_Click"
+                       Style="{StaticResource MaterialDesignOutlinedButton}"
+                       Height="40"
+                       Padding="20,0"
+                       materialDesign:ButtonAssist.CornerRadius="8">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Close" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Close" FontSize="13" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Grid>
 
@@ -45,55 +66,62 @@
             </Grid.ColumnDefinitions>
 
             <!-- Total Amount Card -->
-            <Border Grid.Column="0" 
-                   Style="{StaticResource StatsCard}" 
-                   Margin="0,0,8,0">
+            <materialDesign:Card Grid.Column="0" 
+                                Margin="0,0,8,0"
+                                Padding="20"
+                                UniformCornerRadius="8"
+                                materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel>
                     <TextBlock Text="Total Expenses" 
                               Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding TotalAmount, StringFormat=₹{0:N2}}" 
                               Style="{StaticResource StatsValue}"
-                              Foreground="{StaticResource AccentMintBrush}"/>
+                              Foreground="#171717"/>
                 </StackPanel>
-            </Border>
+            </materialDesign:Card>
 
             <!-- Average Daily Card -->
-            <Border Grid.Column="1" 
-                   Style="{StaticResource StatsCard}" 
-                   Margin="4,0">
+            <materialDesign:Card Grid.Column="1" 
+                                Margin="4,0"
+                                Padding="20"
+                                UniformCornerRadius="8"
+                                materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel>
                     <TextBlock Text="Daily Average" 
                               Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding AverageDaily, StringFormat=₹{0:N2}}" 
                               Style="{StaticResource StatsValue}"/>
                 </StackPanel>
-            </Border>
+            </materialDesign:Card>
 
             <!-- Top Category Card -->
-            <Border Grid.Column="2" 
-                   Style="{StaticResource StatsCard}" 
-                   Margin="4,0,8,0">
+            <materialDesign:Card Grid.Column="2" 
+                                Margin="4,0,8,0"
+                                Padding="20"
+                                UniformCornerRadius="8"
+                                materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel>
                     <TextBlock Text="Top Category" 
                               Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding TopCategory}" 
                               Style="{StaticResource StatsValue}"
-                              Foreground="{StaticResource AccentVioletBrush}"/>
+                              Foreground="#171717"/>
                 </StackPanel>
-            </Border>
+            </materialDesign:Card>
 
             <!-- Date Range Selector -->
-            <Border Grid.Column="3" 
-                   Style="{StaticResource StatsCard}"
-                   Padding="20" 
-                   Margin="8,0,0,0">
+            <materialDesign:Card Grid.Column="3" 
+                                Padding="20"
+                                Margin="8,0,0,0"
+                                UniformCornerRadius="8"
+                                materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="From" 
                               Style="{StaticResource BodyText}"
                               VerticalAlignment="Center" 
                               Margin="0,0,8,0"/>
                     <DatePicker SelectedDate="{Binding StartDate}" 
-                               Style="{StaticResource ModernDatePicker}"
+                               Style="{StaticResource MaterialDesignOutlinedDatePicker}"
                                Width="130" 
                                Margin="0,0,12,0"/>
                     <TextBlock Text="To" 
@@ -101,19 +129,20 @@
                               VerticalAlignment="Center" 
                               Margin="0,0,8,0"/>
                     <DatePicker SelectedDate="{Binding EndDate}" 
-                               Style="{StaticResource ModernDatePicker}"
+                               Style="{StaticResource MaterialDesignOutlinedDatePicker}"
                                Width="130"/>
                 </StackPanel>
-            </Border>
+            </materialDesign:Card>
         </Grid>
 
         <!-- Charts Grid -->
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <!-- Category Pie Chart -->
-                <Border Style="{StaticResource DashboardCard}" 
-                       Padding="24" 
-                       Margin="0,0,0,16">
+                <materialDesign:Card Padding="24" 
+                                    Margin="0,0,0,16"
+                                    UniformCornerRadius="12"
+                                    materialDesign:ElevationAssist.Elevation="Dp1">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -130,12 +159,13 @@
                                      InitialRotation="-90">
                         </lvc:PieChart>
                     </Grid>
-                </Border>
+                </materialDesign:Card>
 
                 <!-- Monthly Bar Chart -->
-                <Border Style="{StaticResource DashboardCard}" 
-                       Padding="24" 
-                       Margin="0,0,0,16">
+                <materialDesign:Card Padding="24" 
+                                    Margin="0,0,0,16"
+                                    UniformCornerRadius="12"
+                                    materialDesign:ElevationAssist.Elevation="Dp1">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -152,11 +182,12 @@
                                            LegendPosition="Bottom">
                         </lvc:CartesianChart>
                     </Grid>
-                </Border>
+                </materialDesign:Card>
 
                 <!-- Daily Line Chart -->
-                <Border Style="{StaticResource DashboardCard}" 
-                       Padding="24">
+                <materialDesign:Card Padding="24"
+                                    UniformCornerRadius="12"
+                                    materialDesign:ElevationAssist.Elevation="Dp1">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -173,7 +204,7 @@
                                            LegendPosition="Bottom">
                         </lvc:CartesianChart>
                     </Grid>
-                </Border>
+                </materialDesign:Card>
             </StackPanel>
         </ScrollViewer>
     </Grid>
