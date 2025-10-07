@@ -89,6 +89,7 @@
                                                 Width="140"
                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                 materialDesign:HintAssist.Hint="Budget Limit"
+                                                Padding="12,8"
                                                 FontSize="14"
                                                 VerticalContentAlignment="Center"
                                                 Height="40"/>
