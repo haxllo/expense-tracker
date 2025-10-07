@@ -39,7 +39,7 @@
                        Margin="0,0,8,0"
                        materialDesign:ButtonAssist.CornerRadius="8">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="Refresh" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="↻" FontSize="18" Margin="0,0,6,0" VerticalAlignment="Center"/>
                         <TextBlock Text="Refresh" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
@@ -49,7 +49,7 @@
                        Padding="20,0"
                        materialDesign:ButtonAssist.CornerRadius="8">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="Close" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="✕" FontSize="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
                         <TextBlock Text="Close" FontSize="13" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
