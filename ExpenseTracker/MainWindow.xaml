@@ -40,125 +40,177 @@
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="➕ Add Expense" Command="{Binding AddExpenseCommand}"
-                       Padding="15,8" Margin="5,0" FontSize="14" FontWeight="SemiBold"
-                       Background="#4CAF50" Foreground="White" BorderThickness="0"
-                       Cursor="Hand">
+                       Padding="16,10" Margin="6,0" FontSize="13" FontWeight="SemiBold"
+                       Foreground="White" BorderThickness="1" Cursor="Hand">
                     <Button.Style>
                         <Style TargetType="Button">
+                            <Setter Property="Background" Value="{DynamicResource NeonCyanBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource NeonCyanBrush}"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}" 
-                                               CornerRadius="5" Padding="{TemplateBinding Padding}">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               CornerRadius="10" Padding="{TemplateBinding Padding}">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="#00FFC6" BlurRadius="12" ShadowDepth="0" Opacity="0.4"/>
+                                            </Border.Effect>
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#45A049"/>
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#00FFC6" Offset="0"/>
+                                                <GradientStop Color="#00D9A8" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
                 </Button>
                 <Button Content="🔄 Refresh" Command="{Binding RefreshCommand}"
-                       Padding="15,8" Margin="5,0" FontSize="14" FontWeight="SemiBold"
-                       Background="#2196F3" Foreground="White" BorderThickness="0"
-                       Cursor="Hand">
+                       Padding="16,10" Margin="6,0" FontSize="13" FontWeight="SemiBold"
+                       Foreground="White" BorderThickness="1" Cursor="Hand">
                     <Button.Style>
                         <Style TargetType="Button">
+                            <Setter Property="Background" Value="{DynamicResource NeonBlueBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource NeonBlueBrush}"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}" 
-                                               CornerRadius="5" Padding="{TemplateBinding Padding}">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               CornerRadius="10" Padding="{TemplateBinding Padding}">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="#3B82F6" BlurRadius="12" ShadowDepth="0" Opacity="0.4"/>
+                                            </Border.Effect>
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#1976D2"/>
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#3B82F6" Offset="0"/>
+                                                <GradientStop Color="#60A5FA" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
                 </Button>
                 <Button Content="💰 Budget" Command="{Binding ShowBudgetCommand}"
-                       Padding="15,8" Margin="5,0" FontSize="14" FontWeight="SemiBold"
-                       Background="#FF9800" Foreground="White" BorderThickness="0"
-                       Cursor="Hand">
+                       Padding="16,10" Margin="6,0" FontSize="13" FontWeight="SemiBold"
+                       Foreground="White" BorderThickness="1" Cursor="Hand">
                     <Button.Style>
                         <Style TargetType="Button">
+                            <Setter Property="Background" Value="{DynamicResource NeonAmberBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource NeonAmberBrush}"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}" 
-                                               CornerRadius="5" Padding="{TemplateBinding Padding}">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               CornerRadius="10" Padding="{TemplateBinding Padding}">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="#F59E0B" BlurRadius="12" ShadowDepth="0" Opacity="0.4"/>
+                                            </Border.Effect>
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#F57C00"/>
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#F59E0B" Offset="0"/>
+                                                <GradientStop Color="#FBBF24" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
                 </Button>
                 <Button Content="📊 Reports" Command="{Binding ShowReportsCommand}"
-                       Padding="15,8" Margin="5,0" FontSize="14" FontWeight="SemiBold"
-                       Background="#9C27B0" Foreground="White" BorderThickness="0"
-                       Cursor="Hand">
+                       Padding="16,10" Margin="6,0" FontSize="13" FontWeight="SemiBold"
+                       Foreground="White" BorderThickness="1" Cursor="Hand">
                     <Button.Style>
                         <Style TargetType="Button">
+                            <Setter Property="Background" Value="{DynamicResource NeonPurpleBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource NeonPurpleBrush}"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}" 
-                                               CornerRadius="5" Padding="{TemplateBinding Padding}">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               CornerRadius="10" Padding="{TemplateBinding Padding}">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="#7B61FF" BlurRadius="12" ShadowDepth="0" Opacity="0.4"/>
+                                            </Border.Effect>
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#7B1FA2"/>
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#A855F7" Offset="0"/>
+                                                <GradientStop Color="#C084FC" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
                 </Button>
                 <Button Content="{Binding ThemeIcon}" Command="{Binding ToggleThemeCommand}"
-                       Padding="10,8" Margin="10,0,0,0" FontSize="18"
-                       Background="#607D8B" Foreground="White" BorderThickness="0"
+                       Padding="12,10" Margin="10,0,0,0" FontSize="16"
+                       Foreground="White" BorderThickness="1"
                        Cursor="Hand" ToolTip="Toggle Theme">
                     <Button.Style>
                         <Style TargetType="Button">
+                            <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}" 
-                                               CornerRadius="5" Padding="{TemplateBinding Padding}">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               BorderThickness="{TemplateBinding BorderThickness}"
+                                               CornerRadius="10" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#546E7A"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource NeonCyanBrush}"/>
+                                    <Setter Property="Background" Value="#21262D"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
