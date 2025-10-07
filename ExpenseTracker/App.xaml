@@ -1,12 +1,19 @@
 <Application x:Class="ExpenseTracker.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              StartupUri="MainWindow.xaml"
              Startup="Application_Startup">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- V0.dev Inspired Modern Theme -->
+                <!-- Material Design -->
+                <materialDesign:BundledTheme BaseTheme="Light" 
+                                            PrimaryColor="Grey" 
+                                            SecondaryColor="Grey" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                
+                <!-- Custom Modern Theme -->
                 <ResourceDictionary Source="Themes/ModernTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

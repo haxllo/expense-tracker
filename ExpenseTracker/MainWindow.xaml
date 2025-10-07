@@ -4,14 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:helpers="clr-namespace:ExpenseTracker.Helpers"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Expense Tracker" Height="820" Width="1360"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource AppBackgroundBrush}"
         UseLayoutRounding="True"
         SnapsToDevicePixels="True"
-        TextOptions.TextFormattingMode="Display"
-        TextOptions.TextRenderingMode="ClearType">
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        TextElement.Foreground="{StaticResource TextPrimaryBrush}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto">
     <Window.Resources>
         <helpers:TextLengthToVisibilityConverter x:Key="TextLengthToVisibilityConverter"/>
     </Window.Resources>
@@ -36,29 +41,50 @@
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Command="{Binding AddExpenseCommand}"
-                       Style="{StaticResource PrimaryButton}"
+                       Style="{StaticResource MaterialDesignRaisedButton}"
+                       Background="{StaticResource AccentMintBrush}"
+                       Foreground="#FAFAFA"
                        Height="40"
-                       Padding="16,0"
-                       Margin="0,0,8,0">
+                       Padding="20,0"
+                       Margin="0,0,8,0"
+                       materialDesign:ButtonAssist.CornerRadius="8">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="+" FontSize="16" Margin="0,0,8,0" FontWeight="Bold"/>
-                        <TextBlock Text="Add Expense" FontSize="13"/>
+                        <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Add Expense" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
-                <Button Content="Refresh" 
-                       Command="{Binding RefreshCommand}"
-                       Style="{StaticResource SecondaryButton}"
+                <Button Command="{Binding RefreshCommand}"
+                       Style="{StaticResource MaterialDesignOutlinedButton}"
                        Height="40"
-                       Margin="0,0,8,0"/>
-                <Button Content="Budget" 
-                       Command="{Binding ShowBudgetCommand}"
-                       Style="{StaticResource SecondaryButton}"
+                       Padding="20,0"
+                       Margin="0,0,8,0"
+                       materialDesign:ButtonAssist.CornerRadius="8">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Refresh" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Refresh" FontSize="13" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding ShowBudgetCommand}"
+                       Style="{StaticResource MaterialDesignOutlinedButton}"
                        Height="40"
-                       Margin="0,0,8,0"/>
-                <Button Content="Reports" 
-                       Command="{Binding ShowReportsCommand}"
-                       Style="{StaticResource SecondaryButton}"
-                       Height="40"/>
+                       Padding="20,0"
+                       Margin="0,0,8,0"
+                       materialDesign:ButtonAssist.CornerRadius="8">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="CurrencyUsd" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Budget" FontSize="13" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding ShowReportsCommand}"
+                       Style="{StaticResource MaterialDesignOutlinedButton}"
+                       Height="40"
+                       Padding="20,0"
+                       materialDesign:ButtonAssist.CornerRadius="8">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ChartBar" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Reports" FontSize="13" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Grid>
 
@@ -73,7 +99,10 @@
             </Grid.ColumnDefinitions>
 
             <!-- Total Expenses -->
-            <Border Grid.Column="0" Style="{StaticResource StatsCard}" Margin="0,0,12,0">
+            <materialDesign:Card Grid.Column="0" 
+                                Margin="0,0,12,0" 
+                                Padding="20"
+                                UniformCornerRadius="8">
                 <StackPanel>
                     <TextBlock Text="TOTAL EXPENSES" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding TotalExpenses, StringFormat=₹{0:N0}}" 
@@ -81,10 +110,13 @@
                               Foreground="{StaticResource AccentMintBrush}"
                               Margin="0,8,0,0"/>
                 </StackPanel>
-            </Border>
+            </materialDesign:Card>
 
             <!-- This Month -->
-            <Border Grid.Column="1" Style="{StaticResource StatsCard}" Margin="0,0,12,0">
+            <materialDesign:Card Grid.Column="1" 
+                                Margin="0,0,12,0" 
+                                Padding="20"
+                                UniformCornerRadius="8">
                 <StackPanel>
                     <TextBlock Text="THIS MONTH" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding MonthlyTotal, StringFormat=₹{0:N0}}" 
@@ -92,10 +124,13 @@
                               Foreground="{StaticResource TextPrimaryBrush}"
                               Margin="0,8,0,0"/>
                 </StackPanel>
-            </Border>
+            </materialDesign:Card>
 
             <!-- Last 7 Days -->
-            <Border Grid.Column="2" Style="{StaticResource StatsCard}" Margin="0,0,12,0">
+            <materialDesign:Card Grid.Column="2" 
+                                Margin="0,0,12,0" 
+                                Padding="20"
+                                UniformCornerRadius="8">
                 <StackPanel>
                     <TextBlock Text="LAST 7 DAYS" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding WeeklyTotal, StringFormat=₹{0:N0}}" 
@@ -103,10 +138,13 @@
                               Foreground="{StaticResource TextPrimaryBrush}"
                               Margin="0,8,0,0"/>
                 </StackPanel>
-            </Border>
+            </materialDesign:Card>
 
             <!-- Average Daily -->
-            <Border Grid.Column="3" Style="{StaticResource StatsCard}" Margin="0,0,12,0">
+            <materialDesign:Card Grid.Column="3" 
+                                Margin="0,0,12,0" 
+                                Padding="20"
+                                UniformCornerRadius="8">
                 <StackPanel>
                     <TextBlock Text="AVG DAILY" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding AverageDaily, StringFormat=₹{0:N0}}" 
@@ -114,10 +152,12 @@
                               Foreground="{StaticResource TextPrimaryBrush}"
                               Margin="0,8,0,0"/>
                 </StackPanel>
-            </Border>
+            </materialDesign:Card>
 
             <!-- Top Category -->
-            <Border Grid.Column="4" Style="{StaticResource StatsCard}">
+            <materialDesign:Card Grid.Column="4" 
+                                Padding="20"
+                                UniformCornerRadius="8">
                 <StackPanel>
                     <TextBlock Text="TOP CATEGORY" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding TopCategory}" 
@@ -127,7 +167,7 @@
                               TextTrimming="CharacterEllipsis"
                               Margin="0,8,0,0"/>
                 </StackPanel>
-            </Border>
+            </materialDesign:Card>
         </Grid>
 
         <!-- ========== FILTERS & SEARCH ========== -->
@@ -148,59 +188,26 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Search Box with Icon -->
-                    <Border Grid.Column="0" 
-                           Background="{StaticResource SurfaceBrush}"
-                           BorderBrush="{StaticResource BorderBrush}"
-                           BorderThickness="1"
-                           CornerRadius="8"
-                           Height="40"
-                           Margin="0,0,12,0">
-                        <Grid>
-                            <!-- Search Icon -->
-                            <TextBlock Text="🔍" 
-                                      FontSize="16" 
-                                      Foreground="{StaticResource TextSecondaryBrush}"
-                                      VerticalAlignment="Center"
-                                      Margin="12,0,0,0"/>
-                            
-                            <!-- Search TextBox -->
-                            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Padding="40,0,12,0"
-                                    VerticalContentAlignment="Center"
-                                    FontSize="13">
-                                <TextBox.Style>
-                                    <Style TargetType="TextBox">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="TextBox">
-                                                    <Grid>
-                                                        <ScrollViewer x:Name="PART_ContentHost" 
-                                                                     VerticalAlignment="Center"/>
-                                                        <TextBlock Text="Search expenses..." 
-                                                                  FontSize="13"
-                                                                  Foreground="{StaticResource TextTertiaryBrush}"
-                                                                  IsHitTestVisible="False"
-                                                                  VerticalAlignment="Center"
-                                                                  Margin="0,0,0,0"
-                                                                  Visibility="{Binding Text.Length, RelativeSource={RelativeSource TemplatedParent}, 
-                                                                              Converter={StaticResource TextLengthToVisibilityConverter}}"/>
-                                                    </Grid>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </TextBox.Style>
-                            </TextBox>
-                        </Grid>
-                    </Border>
+                    <TextBox Grid.Column="0"
+                            Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Height="40"
+                            Margin="0,0,12,0"
+                            VerticalContentAlignment="Center"
+                            FontSize="13"
+                            materialDesign:HintAssist.Hint="Search expenses..."
+                            materialDesign:TextFieldAssist.HasLeadingIcon="True"
+                            materialDesign:TextFieldAssist.LeadingIcon="Magnify"
+                            materialDesign:TextFieldAssist.LeadingIconSize="20" />
 
                     <!-- Category Dropdown -->
                     <ComboBox Grid.Column="1"
-                             Style="{StaticResource ModernComboBox}"
+                             Style="{StaticResource MaterialDesignOutlinedComboBox}"
                              Height="40"
-                             Margin="0,0,12,0">
+                             Margin="0,0,12,0"
+                             materialDesign:HintAssist.Hint="Category"
+                             VerticalContentAlignment="Center"
+                             FontSize="13">
                         <ComboBoxItem Content="All Categories" IsSelected="True"/>
                         <ComboBoxItem Content="Food"/>
                         <ComboBoxItem Content="Transport"/>
@@ -211,9 +218,12 @@
 
                     <!-- Payment Method Dropdown -->
                     <ComboBox Grid.Column="2"
-                             Style="{StaticResource ModernComboBox}"
+                             Style="{StaticResource MaterialDesignOutlinedComboBox}"
                              Height="40"
-                             Margin="0,0,12,0">
+                             Margin="0,0,12,0"
+                             materialDesign:HintAssist.Hint="Payment Method"
+                             VerticalContentAlignment="Center"
+                             FontSize="13">
                         <ComboBoxItem Content="All Methods" IsSelected="True"/>
                         <ComboBoxItem Content="Cash"/>
                         <ComboBoxItem Content="Credit Card"/>
@@ -223,10 +233,11 @@
 
                     <!-- Filter Icon Button -->
                     <Button Grid.Column="3"
-                           Style="{StaticResource IconButton}"
+                           Style="{StaticResource MaterialDesignIconButton}"
                            Width="40"
-                           Height="40">
-                        <TextBlock Text="⚙" FontSize="16"/>
+                           Height="40"
+                           Foreground="{StaticResource TextPrimaryBrush}">
+                        <materialDesign:PackIcon Kind="FilterOutline" Width="20" Height="20"/>
                     </Button>
                 </Grid>
 
@@ -298,13 +309,29 @@
                    Orientation="Horizontal" 
                    HorizontalAlignment="Right" 
                    Margin="0,16,0,0">
-            <Button Content="Edit" 
-                   Command="{Binding EditExpenseCommand}"
-                   Style="{StaticResource SecondaryButton}"
-                   Margin="0,0,8,0"/>
-            <Button Content="Delete" 
-                   Command="{Binding DeleteExpenseCommand}"
-                   Style="{StaticResource DangerButton}"/>
+            <Button Command="{Binding EditExpenseCommand}"
+                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                   Height="40"
+                   Padding="20,0"
+                   Margin="0,0,8,0"
+                   materialDesign:ButtonAssist.CornerRadius="8">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Edit" FontSize="13" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding DeleteExpenseCommand}"
+                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                   Height="40"
+                   Padding="20,0"
+                   Foreground="#EF4444"
+                   BorderBrush="#EF4444"
+                   materialDesign:ButtonAssist.CornerRadius="8">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Delete" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Delete" FontSize="13" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>
