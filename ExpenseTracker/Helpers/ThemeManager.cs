@@ -13,8 +13,7 @@ namespace ExpenseTracker.Helpers
 
             var existingTheme = app.Resources.MergedDictionaries
                 .FirstOrDefault(d => d.Source != null && 
-                    (d.Source.OriginalString.Contains("LightTheme") || 
-                     d.Source.OriginalString.Contains("DarkTheme")));
+                    (d.Source.OriginalString.Contains("Theme.xaml")));
 
             if (existingTheme != null)
             {
@@ -30,15 +29,25 @@ namespace ExpenseTracker.Helpers
 
         public static void LoadSavedTheme()
         {
+            // Default to Modern theme (light theme with color scheme)
             var savedTheme = SettingsManager.GetTheme();
+            
+            // If saved theme is Dark or Light (old themes), use Modern instead
+            if (savedTheme == "Dark" || savedTheme == "Light")
+            {
+                savedTheme = "Modern";
+                SettingsManager.SetTheme("Modern");
+            }
+            
             ApplyTheme(savedTheme);
         }
 
         public static void ToggleTheme()
         {
+            // Only Modern theme is available now
             var currentTheme = SettingsManager.GetTheme();
-            var newTheme = currentTheme == "Light" ? "Dark" : "Light";
-            ApplyTheme(newTheme);
+            // Keep it as Modern (no toggle needed with single theme)
+            ApplyTheme("Modern");
         }
 
         public static string GetCurrentTheme()
