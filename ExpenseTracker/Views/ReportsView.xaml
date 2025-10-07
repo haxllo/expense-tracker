@@ -82,7 +82,9 @@
                                 Margin="0,0,6,0"
                                 Padding="12"
                                 UniformCornerRadius="6"
-                                materialDesign:ElevationAssist.Elevation="Dp1">
+                                BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
                     <TextBlock Text="Total Expenses" 
                               Style="{StaticResource StatsLabel}"/>
@@ -97,7 +99,9 @@
                                 Margin="3,0"
                                 Padding="12"
                                 UniformCornerRadius="6"
-                                materialDesign:ElevationAssist.Elevation="Dp1">
+                                BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
                     <TextBlock Text="Daily Average" 
                               Style="{StaticResource StatsLabel}"/>
@@ -111,7 +115,9 @@
                                 Margin="3,0,6,0"
                                 Padding="12"
                                 UniformCornerRadius="6"
-                                materialDesign:ElevationAssist.Elevation="Dp1">
+                                BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
                     <TextBlock Text="Top Category" 
                               Style="{StaticResource StatsLabel}"/>
@@ -126,7 +132,9 @@
                                 Padding="12"
                                 Margin="6,0,0,0"
                                 UniformCornerRadius="6"
-                                materialDesign:ElevationAssist.Elevation="Dp1">
+                                BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="From" 
                               Style="{StaticResource BodyText}"
@@ -154,7 +162,9 @@
                 <materialDesign:Card Padding="16" 
                                     Margin="0,0,0,12"
                                     UniformCornerRadius="8"
-                                    materialDesign:ElevationAssist.Elevation="Dp1">
+                                    BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -177,7 +187,9 @@
                 <materialDesign:Card Padding="16" 
                                     Margin="0,0,0,12"
                                     UniformCornerRadius="8"
-                                    materialDesign:ElevationAssist.Elevation="Dp1">
+                                    BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -199,7 +211,9 @@
                 <!-- Daily Line Chart -->
                 <materialDesign:Card Padding="16"
                                     UniformCornerRadius="8"
-                                    materialDesign:ElevationAssist.Elevation="Dp1">
+                                    BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>

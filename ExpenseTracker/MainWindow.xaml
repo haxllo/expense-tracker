@@ -114,7 +114,9 @@
                                 Margin="0,0,12,0" 
                                 Padding="20"
                                 UniformCornerRadius="8"
-                                materialDesign:ElevationAssist.Elevation="Dp1">
+                                BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
                     <TextBlock Text="TOTAL EXPENSES" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding TotalExpenses, StringFormat=₹{0:N0}}" 
@@ -129,7 +131,9 @@
                                 Margin="0,0,12,0" 
                                 Padding="20"
                                 UniformCornerRadius="8"
-                                materialDesign:ElevationAssist.Elevation="Dp1">
+                                BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
                     <TextBlock Text="THIS MONTH" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding MonthlyTotal, StringFormat=₹{0:N0}}" 
@@ -144,7 +148,9 @@
                                 Margin="0,0,12,0" 
                                 Padding="20"
                                 UniformCornerRadius="8"
-                                materialDesign:ElevationAssist.Elevation="Dp1">
+                                BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
                     <TextBlock Text="LAST 7 DAYS" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding WeeklyTotal, StringFormat=₹{0:N0}}" 
@@ -159,7 +165,9 @@
                                 Margin="0,0,12,0" 
                                 Padding="20"
                                 UniformCornerRadius="8"
-                                materialDesign:ElevationAssist.Elevation="Dp1">
+                                BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
                     <TextBlock Text="AVG DAILY" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding AverageDaily, StringFormat=₹{0:N0}}" 
@@ -173,7 +181,9 @@
             <materialDesign:Card Grid.Column="4" 
                                 Padding="20"
                                 UniformCornerRadius="8"
-                                materialDesign:ElevationAssist.Elevation="Dp1">
+                                BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
                     <TextBlock Text="TOP CATEGORY" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding TopCategory}" 

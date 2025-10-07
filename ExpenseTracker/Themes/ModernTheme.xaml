@@ -432,7 +432,8 @@
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
         <Setter Property="FontSize" Value="{StaticResource FontSize24}"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Typography.Capitals" Value="Normal"/>
     </Style>
     
     <Style x:Key="Heading2" TargetType="TextBlock">

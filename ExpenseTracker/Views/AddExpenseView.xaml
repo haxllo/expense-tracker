@@ -34,7 +34,9 @@
         <!-- Form -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <materialDesign:Card Padding="32" UniformCornerRadius="12" 
-                                materialDesign:ElevationAssist.Elevation="Dp1"
+                                BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                materialDesign:ElevationAssist.Elevation="Dp0"
                                 Margin="0,0,0,16">
                 <StackPanel>
                 <!-- Amount -->

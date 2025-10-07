@@ -48,7 +48,9 @@
         <materialDesign:Card Grid.Row="1" 
                             Padding="24"
                             UniformCornerRadius="12"
-                            materialDesign:ElevationAssist.Elevation="Dp1">
+                            BorderBrush="#E5E7EB"
+                            BorderThickness="1"
+                            materialDesign:ElevationAssist.Elevation="Dp0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding CategoryBudgets}">
                     <ItemsControl.ItemTemplate>
