@@ -140,10 +140,10 @@
         </Setter>
     </Style>
     
-    <!-- Primary Button Style (mint-cyan accent) -->
+    <!-- Primary Button Style (dark button with white text) -->
     <Style x:Key="PrimaryButton" TargetType="Button">
         <Setter Property="Background" Value="{StaticResource AccentMintBrush}"/>
-        <Setter Property="Foreground" Value="#0F1118"/>
+        <Setter Property="Foreground" Value="#FAFAFA"/>
         <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
         <Setter Property="FontSize" Value="{StaticResource FontSize13}"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
@@ -156,12 +156,6 @@
                     <Border Background="{TemplateBinding Background}" 
                            CornerRadius="{StaticResource RadiusMedium}"
                            Padding="{TemplateBinding Padding}">
-                        <Border.Effect>
-                            <DropShadowEffect Color="{StaticResource AccentMintColor}" 
-                                            BlurRadius="16" 
-                                            ShadowDepth="0" 
-                                            Opacity="0.4"/>
-                        </Border.Effect>
                         <ContentPresenter HorizontalAlignment="Center" 
                                         VerticalAlignment="Center"/>
                     </Border>
