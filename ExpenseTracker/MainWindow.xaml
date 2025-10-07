@@ -42,7 +42,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Command="{Binding AddExpenseCommand}"
                        Style="{StaticResource MaterialDesignRaisedButton}"
-                       Background="{StaticResource AccentMintBrush}"
+                       Background="#171717"
                        Foreground="#FAFAFA"
                        Height="40"
                        Padding="20,0"

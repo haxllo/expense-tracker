@@ -101,7 +101,7 @@
             </Button>
             <Button Command="{Binding SaveCommand}"
                    Style="{StaticResource MaterialDesignRaisedButton}"
-                   Background="{StaticResource AccentMintBrush}"
+                   Background="#171717"
                    Foreground="#FAFAFA"
                    Height="44"
                    Padding="24,0"
