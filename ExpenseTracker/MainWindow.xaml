@@ -35,21 +35,30 @@
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Add Expense" 
-                       Command="{Binding AddExpenseCommand}"
+                <Button Command="{Binding AddExpenseCommand}"
                        Style="{StaticResource PrimaryButton}"
-                       Margin="0,0,8,0"/>
+                       Height="40"
+                       Padding="16,0"
+                       Margin="0,0,8,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="+" FontSize="16" Margin="0,0,8,0" FontWeight="Bold"/>
+                        <TextBlock Text="Add Expense" FontSize="13"/>
+                    </StackPanel>
+                </Button>
                 <Button Content="Refresh" 
                        Command="{Binding RefreshCommand}"
                        Style="{StaticResource SecondaryButton}"
+                       Height="40"
                        Margin="0,0,8,0"/>
                 <Button Content="Budget" 
                        Command="{Binding ShowBudgetCommand}"
                        Style="{StaticResource SecondaryButton}"
+                       Height="40"
                        Margin="0,0,8,0"/>
                 <Button Content="Reports" 
                        Command="{Binding ShowReportsCommand}"
-                       Style="{StaticResource SecondaryButton}"/>
+                       Style="{StaticResource SecondaryButton}"
+                       Height="40"/>
             </StackPanel>
         </Grid>
 
@@ -132,86 +141,93 @@
                 <!-- Search and Filters -->
                 <Grid Grid.Row="0" Margin="0,0,0,16">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="300"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="180"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Search Box -->
-                    <TextBox Grid.Column="0" 
-                            Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                            Style="{StaticResource ModernTextBox}">
-                        <TextBox.Template>
-                            <ControlTemplate TargetType="TextBox">
-                                <Border Background="{TemplateBinding Background}"
-                                       BorderBrush="{TemplateBinding BorderBrush}"
-                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                       CornerRadius="8">
-                                    <Grid>
-                                        <TextBlock Text="Search expenses..." 
-                                                  Foreground="{StaticResource TextTertiaryBrush}"
-                                                  Padding="12,10"
-                                                  FontSize="13"
-                                                  IsHitTestVisible="False"
-                                                  Visibility="{Binding Text.Length, RelativeSource={RelativeSource TemplatedParent}, 
-                                                              Converter={StaticResource TextLengthToVisibilityConverter}}"/>
-                                        <ScrollViewer x:Name="PART_ContentHost" Margin="12,10"/>
-                                    </Grid>
-                                </Border>
-                            </ControlTemplate>
-                        </TextBox.Template>
-                    </TextBox>
+                    <!-- Search Box with Icon -->
+                    <Border Grid.Column="0" 
+                           Background="{StaticResource SurfaceBrush}"
+                           BorderBrush="{StaticResource BorderBrush}"
+                           BorderThickness="1"
+                           CornerRadius="8"
+                           Height="40"
+                           Margin="0,0,12,0">
+                        <Grid>
+                            <!-- Search Icon -->
+                            <TextBlock Text="🔍" 
+                                      FontSize="16" 
+                                      Foreground="{StaticResource TextSecondaryBrush}"
+                                      VerticalAlignment="Center"
+                                      Margin="12,0,0,0"/>
+                            
+                            <!-- Search TextBox -->
+                            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Padding="40,0,12,0"
+                                    VerticalContentAlignment="Center"
+                                    FontSize="13">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="TextBox">
+                                                    <Grid>
+                                                        <ScrollViewer x:Name="PART_ContentHost" 
+                                                                     VerticalAlignment="Center"/>
+                                                        <TextBlock Text="Search expenses..." 
+                                                                  FontSize="13"
+                                                                  Foreground="{StaticResource TextTertiaryBrush}"
+                                                                  IsHitTestVisible="False"
+                                                                  VerticalAlignment="Center"
+                                                                  Margin="0,0,0,0"
+                                                                  Visibility="{Binding Text.Length, RelativeSource={RelativeSource TemplatedParent}, 
+                                                                              Converter={StaticResource TextLengthToVisibilityConverter}}"/>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </Grid>
+                    </Border>
 
-                    <!-- Date Filters -->
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="16,0,0,0">
-                        <TextBlock Text="From" 
-                                  VerticalAlignment="Center" 
-                                  Foreground="{StaticResource TextSecondaryBrush}"
-                                  FontSize="12"
-                                  Margin="0,0,8,0"/>
-                        <DatePicker SelectedDate="{Binding FilterStartDate}" 
-                                   Style="{StaticResource ModernDatePicker}"
-                                   Width="130"
-                                   Margin="0,0,16,0"/>
-                        
-                        <TextBlock Text="To" 
-                                  VerticalAlignment="Center" 
-                                  Foreground="{StaticResource TextSecondaryBrush}"
-                                  FontSize="12"
-                                  Margin="0,0,8,0"/>
-                        <DatePicker SelectedDate="{Binding FilterEndDate}" 
-                                   Style="{StaticResource ModernDatePicker}"
-                                   Width="130"/>
-                    </StackPanel>
+                    <!-- Category Dropdown -->
+                    <ComboBox Grid.Column="1"
+                             Style="{StaticResource ModernComboBox}"
+                             Height="40"
+                             Margin="0,0,12,0">
+                        <ComboBoxItem Content="All Categories" IsSelected="True"/>
+                        <ComboBoxItem Content="Food"/>
+                        <ComboBoxItem Content="Transport"/>
+                        <ComboBoxItem Content="Shopping"/>
+                        <ComboBoxItem Content="Entertainment"/>
+                        <ComboBoxItem Content="Utilities"/>
+                    </ComboBox>
 
-                    <!-- Sort Buttons -->
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="16,0,0,0">
-                        <TextBlock Text="Sort" 
-                                  VerticalAlignment="Center" 
-                                  Foreground="{StaticResource TextSecondaryBrush}" 
-                                  FontSize="11" 
-                                  Margin="0,0,8,0"/>
-                        <Button Content="Date" 
-                               Command="{Binding SortCommand}" 
-                               CommandParameter="Date"
-                               Style="{StaticResource SecondaryButton}"
-                               Padding="10,6" 
-                               Margin="0,0,4,0" 
-                               FontSize="12"/>
-                        <Button Content="Amount" 
-                               Command="{Binding SortCommand}" 
-                               CommandParameter="Amount"
-                               Style="{StaticResource SecondaryButton}"
-                               Padding="10,6" 
-                               Margin="0,0,4,0" 
-                               FontSize="12"/>
-                        <Button Content="Category" 
-                               Command="{Binding SortCommand}" 
-                               CommandParameter="Category"
-                               Style="{StaticResource SecondaryButton}"
-                               Padding="10,6" 
-                               FontSize="12"/>
-                    </StackPanel>
+                    <!-- Payment Method Dropdown -->
+                    <ComboBox Grid.Column="2"
+                             Style="{StaticResource ModernComboBox}"
+                             Height="40"
+                             Margin="0,0,12,0">
+                        <ComboBoxItem Content="All Methods" IsSelected="True"/>
+                        <ComboBoxItem Content="Cash"/>
+                        <ComboBoxItem Content="Credit Card"/>
+                        <ComboBoxItem Content="Debit Card"/>
+                        <ComboBoxItem Content="Digital Wallet"/>
+                    </ComboBox>
+
+                    <!-- Filter Icon Button -->
+                    <Button Grid.Column="3"
+                           Style="{StaticResource IconButton}"
+                           Width="40"
+                           Height="40">
+                        <TextBlock Text="⚙" FontSize="16"/>
+                    </Button>
                 </Grid>
 
                 <!-- Expenses List -->
