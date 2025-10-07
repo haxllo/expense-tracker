@@ -102,7 +102,8 @@
             <materialDesign:Card Grid.Column="0" 
                                 Margin="0,0,12,0" 
                                 Padding="20"
-                                UniformCornerRadius="8">
+                                UniformCornerRadius="8"
+                                materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel>
                     <TextBlock Text="TOTAL EXPENSES" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding TotalExpenses, StringFormat=₹{0:N0}}" 
@@ -116,7 +117,8 @@
             <materialDesign:Card Grid.Column="1" 
                                 Margin="0,0,12,0" 
                                 Padding="20"
-                                UniformCornerRadius="8">
+                                UniformCornerRadius="8"
+                                materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel>
                     <TextBlock Text="THIS MONTH" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding MonthlyTotal, StringFormat=₹{0:N0}}" 
@@ -130,7 +132,8 @@
             <materialDesign:Card Grid.Column="2" 
                                 Margin="0,0,12,0" 
                                 Padding="20"
-                                UniformCornerRadius="8">
+                                UniformCornerRadius="8"
+                                materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel>
                     <TextBlock Text="LAST 7 DAYS" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding WeeklyTotal, StringFormat=₹{0:N0}}" 
@@ -144,7 +147,8 @@
             <materialDesign:Card Grid.Column="3" 
                                 Margin="0,0,12,0" 
                                 Padding="20"
-                                UniformCornerRadius="8">
+                                UniformCornerRadius="8"
+                                materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel>
                     <TextBlock Text="AVG DAILY" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding AverageDaily, StringFormat=₹{0:N0}}" 
@@ -157,7 +161,8 @@
             <!-- Top Category -->
             <materialDesign:Card Grid.Column="4" 
                                 Padding="20"
-                                UniformCornerRadius="8">
+                                UniformCornerRadius="8"
+                                materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel>
                     <TextBlock Text="TOP CATEGORY" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding TopCategory}" 
@@ -194,8 +199,10 @@
                             Height="40"
                             Margin="0,0,12,0"
                             VerticalContentAlignment="Center"
-                            FontSize="13"
+                            FontSize="14"
+                            Foreground="#0A0A0A"
                             materialDesign:HintAssist.Hint="Search expenses..."
+                            materialDesign:HintAssist.Foreground="#737373"
                             materialDesign:TextFieldAssist.HasLeadingIcon="True"
                             materialDesign:TextFieldAssist.LeadingIcon="Magnify"
                             materialDesign:TextFieldAssist.LeadingIconSize="20" />
