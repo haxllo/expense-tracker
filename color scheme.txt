@@ -1,0 +1,44 @@
+**COLOR SCHEME**
+
+Primary -171717
+primary foreground -FAFAFA
+
+secondary -F5F5F5
+secondary foreground -171717
+
+accent -F5F5F5
+accent foreground - 171717
+
+background -FFFFFF
+foreground - 0A0A0A
+
+card - FFFFFF
+card foreground - 0A0A0A
+
+popover - FFFFFF
+popover foreground - 0A0A0A
+
+muted - F5F5F5
+muted FG -737373
+
+DESTRUCTIVE - 0-19F7
+destructive fg - 0-19F7
+
+border -E6E6E6
+input -E6E6E6
+ring - A1A1A1
+
+chart1 -000-27
+chart2 - -296976
+chart3 -104D63
+chart4 - 000-3B
+chart5- 000-38
+
+sidebar - FAFAFA
+sidebar fg - 0A0A0A
+sidebar primary -171717
+sidebar primary fg - FAFAFA
+sidebar accnt - F5F5F5
+sidebar accent fg - 171717
+sidebar border - E6E6E6
+sidebar ring - A1A1A1
