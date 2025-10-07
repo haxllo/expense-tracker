@@ -19,6 +19,19 @@
         TextOptions.TextRenderingMode="Auto">
     <Window.Resources>
         <helpers:TextLengthToVisibilityConverter x:Key="TextLengthToVisibilityConverter"/>
+        
+        <!-- Custom Add Expense Button Style - No Shadow on Hover, Reduced Contrast -->
+        <Style x:Key="AddExpenseButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+            <Setter Property="Background" Value="#171717"/>
+            <Setter Property="Foreground" Value="#FAFAFA"/>
+            <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#404040"/>
+                    <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid Margin="32">
         <Grid.RowDefinitions>
@@ -41,9 +54,7 @@
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Command="{Binding AddExpenseCommand}"
-                       Style="{StaticResource MaterialDesignRaisedButton}"
-                       Background="#171717"
-                       Foreground="#FAFAFA"
+                       Style="{StaticResource AddExpenseButtonStyle}"
                        Height="40"
                        Padding="20,0"
                        Margin="0,0,8,0"
