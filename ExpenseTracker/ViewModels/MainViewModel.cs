@@ -25,6 +25,9 @@ namespace ExpenseTracker.ViewModels
         private string _searchText = string.Empty;
         private DateTime _filterStartDate;
         private DateTime _filterEndDate;
+        private string _themeIcon = "🌙";
+        private string _currentSortColumn = "Date";
+        private bool _sortAscending = false;
 
         public MainViewModel()
         {
@@ -41,7 +44,10 @@ namespace ExpenseTracker.ViewModels
             SearchCommand = new RelayCommand(async _ => await SearchExpensesAsync());
             ShowBudgetCommand = new RelayCommand(async _ => await ShowBudgetAsync());
             ShowReportsCommand = new RelayCommand(_ => ShowReports());
+            ToggleThemeCommand = new RelayCommand(_ => ToggleTheme());
+            SortCommand = new RelayCommand(param => SortExpenses(param?.ToString() ?? "Date"));
 
+            UpdateThemeIcon();
             InitializeAsync();
         }
 
@@ -105,6 +111,12 @@ namespace ExpenseTracker.ViewModels
             set => SetProperty(ref _trendColor, value);
         }
 
+        public string ThemeIcon
+        {
+            get => _themeIcon;
+            set => SetProperty(ref _themeIcon, value);
+        }
+
         public string SearchText
         {
             get => _searchText;
@@ -142,6 +154,8 @@ namespace ExpenseTracker.ViewModels
         public ICommand SearchCommand { get; }
         public ICommand ShowBudgetCommand { get; }
         public ICommand ShowReportsCommand { get; }
+        public ICommand ToggleThemeCommand { get; }
+        public ICommand SortCommand { get; }
 
         private async void InitializeAsync()
         {
@@ -284,6 +298,19 @@ namespace ExpenseTracker.ViewModels
         {
             if (SelectedExpense == null) return;
 
+            var result = System.Windows.MessageBox.Show(
+                $"Are you sure you want to delete this expense?\n\n" +
+                $"Amount: ₹{SelectedExpense.Amount:N2}\n" +
+                $"Category: {SelectedExpense.Category?.Name}\n" +
+                $"Description: {SelectedExpense.Description}\n" +
+                $"Date: {SelectedExpense.Date:dd/MM/yyyy}",
+                "Confirm Delete",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Warning);
+
+            if (result != System.Windows.MessageBoxResult.Yes)
+                return;
+
             using (var freshDataService = new DataService())
             {
                 await freshDataService.DeleteExpenseAsync(SelectedExpense.Id);
@@ -305,6 +332,54 @@ namespace ExpenseTracker.ViewModels
         {
             var reportsView = new Views.ReportsView();
             reportsView.Show();
+        }
+
+        private void ToggleTheme()
+        {
+            ThemeManager.ToggleTheme();
+            UpdateThemeIcon();
+        }
+
+        private void UpdateThemeIcon()
+        {
+            var currentTheme = ThemeManager.GetCurrentTheme();
+            ThemeIcon = currentTheme == "Light" ? "🌙" : "☀️";
+        }
+
+        private void SortExpenses(string column)
+        {
+            if (_currentSortColumn == column)
+            {
+                _sortAscending = !_sortAscending;
+            }
+            else
+            {
+                _currentSortColumn = column;
+                _sortAscending = true;
+            }
+
+            var sortedList = column switch
+            {
+                "Date" => _sortAscending 
+                    ? Expenses.OrderBy(e => e.Date).ToList() 
+                    : Expenses.OrderByDescending(e => e.Date).ToList(),
+                "Amount" => _sortAscending 
+                    ? Expenses.OrderBy(e => e.Amount).ToList() 
+                    : Expenses.OrderByDescending(e => e.Amount).ToList(),
+                "Category" => _sortAscending 
+                    ? Expenses.OrderBy(e => e.Category?.Name).ToList() 
+                    : Expenses.OrderByDescending(e => e.Category?.Name).ToList(),
+                "Description" => _sortAscending 
+                    ? Expenses.OrderBy(e => e.Description).ToList() 
+                    : Expenses.OrderByDescending(e => e.Description).ToList(),
+                _ => Expenses.OrderByDescending(e => e.Date).ToList()
+            };
+
+            Expenses.Clear();
+            foreach (var expense in sortedList)
+            {
+                Expenses.Add(expense);
+            }
         }
     }
 }
