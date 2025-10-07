@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Reports and Analytics" Height="900" Width="1400"
+        Title="Reports and Analytics" Height="750" Width="1100"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource AppBackgroundBrush}"
         UseLayoutRounding="True"
@@ -14,7 +14,7 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto">
-    <Grid Margin="20">
+    <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <Grid Grid.Row="0" Margin="0,0,0,24">
+        <Grid Grid.Row="0" Margin="0,0,0,16">
             <TextBlock Text="Reports and Analytics" 
                       Style="{StaticResource Heading1}"
                       VerticalAlignment="Center"/>
@@ -67,9 +67,9 @@
 
             <!-- Total Amount Card -->
             <materialDesign:Card Grid.Column="0" 
-                                Margin="0,0,8,0"
-                                Padding="20"
-                                UniformCornerRadius="8"
+                                Margin="0,0,6,0"
+                                Padding="12"
+                                UniformCornerRadius="6"
                                 materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel>
                     <TextBlock Text="Total Expenses" 
@@ -82,9 +82,9 @@
 
             <!-- Average Daily Card -->
             <materialDesign:Card Grid.Column="1" 
-                                Margin="4,0"
-                                Padding="20"
-                                UniformCornerRadius="8"
+                                Margin="3,0"
+                                Padding="12"
+                                UniformCornerRadius="6"
                                 materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel>
                     <TextBlock Text="Daily Average" 
@@ -96,9 +96,9 @@
 
             <!-- Top Category Card -->
             <materialDesign:Card Grid.Column="2" 
-                                Margin="4,0,8,0"
-                                Padding="20"
-                                UniformCornerRadius="8"
+                                Margin="3,0,6,0"
+                                Padding="12"
+                                UniformCornerRadius="6"
                                 materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel>
                     <TextBlock Text="Top Category" 
@@ -111,26 +111,26 @@
 
             <!-- Date Range Selector -->
             <materialDesign:Card Grid.Column="3" 
-                                Padding="20"
-                                Margin="8,0,0,0"
-                                UniformCornerRadius="8"
+                                Padding="12"
+                                Margin="6,0,0,0"
+                                UniformCornerRadius="6"
                                 materialDesign:ElevationAssist.Elevation="Dp1">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="From" 
                               Style="{StaticResource BodyText}"
                               VerticalAlignment="Center" 
-                              Margin="0,0,8,0"/>
+                              Margin="0,0,6,0"/>
                     <DatePicker SelectedDate="{Binding StartDate}" 
                                Style="{StaticResource MaterialDesignOutlinedDatePicker}"
-                               Width="130" 
-                               Margin="0,0,12,0"/>
+                               Width="110" 
+                               Margin="0,0,8,0"/>
                     <TextBlock Text="To" 
                               Style="{StaticResource BodyText}"
                               VerticalAlignment="Center" 
-                              Margin="0,0,8,0"/>
+                              Margin="0,0,6,0"/>
                     <DatePicker SelectedDate="{Binding EndDate}" 
                                Style="{StaticResource MaterialDesignOutlinedDatePicker}"
-                               Width="130"/>
+                               Width="110"/>
                 </StackPanel>
             </materialDesign:Card>
         </Grid>
@@ -139,20 +139,20 @@
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <!-- Category Pie Chart -->
-                <materialDesign:Card Padding="24" 
-                                    Margin="0,0,0,16"
-                                    UniformCornerRadius="12"
+                <materialDesign:Card Padding="16" 
+                                    Margin="0,0,0,12"
+                                    UniformCornerRadius="8"
                                     materialDesign:ElevationAssist.Elevation="Dp1">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="350"/>
+                            <RowDefinition Height="240"/>
                         </Grid.RowDefinitions>
                         
                         <TextBlock Grid.Row="0" 
                                   Text="Expenses by Category" 
                                   Style="{StaticResource Heading3}"
-                                  Margin="0,0,0,16"/>
+                                  Margin="0,0,0,12"/>
                         
                         <lvc:PieChart Grid.Row="1" Series="{Binding CategoryPieChart}"
                                      LegendPosition="Right"
@@ -162,20 +162,20 @@
                 </materialDesign:Card>
 
                 <!-- Monthly Bar Chart -->
-                <materialDesign:Card Padding="24" 
-                                    Margin="0,0,0,16"
-                                    UniformCornerRadius="12"
+                <materialDesign:Card Padding="16" 
+                                    Margin="0,0,0,12"
+                                    UniformCornerRadius="8"
                                     materialDesign:ElevationAssist.Elevation="Dp1">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="300"/>
+                            <RowDefinition Height="200"/>
                         </Grid.RowDefinitions>
                         
                         <TextBlock Grid.Row="0" 
                                   Text="Monthly Spending Trends (Last 6 Months)" 
                                   Style="{StaticResource Heading3}"
-                                  Margin="0,0,0,16"/>
+                                  Margin="0,0,0,12"/>
                         
                         <lvc:CartesianChart Grid.Row="1" Series="{Binding MonthlyBarChart}"
                                            XAxes="{Binding MonthlyXAxis}"
@@ -185,19 +185,19 @@
                 </materialDesign:Card>
 
                 <!-- Daily Line Chart -->
-                <materialDesign:Card Padding="24"
-                                    UniformCornerRadius="12"
+                <materialDesign:Card Padding="16"
+                                    UniformCornerRadius="8"
                                     materialDesign:ElevationAssist.Elevation="Dp1">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="300"/>
+                            <RowDefinition Height="200"/>
                         </Grid.RowDefinitions>
                         
                         <TextBlock Grid.Row="0" 
                                   Text="Daily Spending Pattern (Last 30 Days)" 
                                   Style="{StaticResource Heading3}"
-                                  Margin="0,0,0,16"/>
+                                  Margin="0,0,0,12"/>
                         
                         <lvc:CartesianChart Grid.Row="1" Series="{Binding DailyLineChart}"
                                            XAxes="{Binding DailyXAxis}"
