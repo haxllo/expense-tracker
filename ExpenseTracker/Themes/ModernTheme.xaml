@@ -345,10 +345,10 @@
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource AccentMintColor}" Opacity="0.08"/>
+                        <SolidColorBrush Color="#FFFFFF" Opacity="0.05"/>
                     </Setter.Value>
                 </Setter>
-                <Setter Property="BorderBrush" Value="{StaticResource AccentMintBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource TextSecondaryBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
