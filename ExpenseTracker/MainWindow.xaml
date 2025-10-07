@@ -176,7 +176,11 @@
         </Grid>
 
         <!-- ========== FILTERS & SEARCH ========== -->
-        <Border Grid.Row="2" Style="{StaticResource DashboardCard}" Margin="0,0,0,16" Padding="20">
+        <materialDesign:Card Grid.Row="2" 
+                            Margin="0,0,0,16" 
+                            Padding="20"
+                            UniformCornerRadius="12"
+                            materialDesign:ElevationAssist.Elevation="Dp1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -299,7 +303,7 @@
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontWeight" Value="SemiBold"/>
-                                    <Setter Property="Foreground" Value="{StaticResource AccentMintBrush}"/>
+                                    <Setter Property="Foreground" Value="#171717"/>
                                     <Setter Property="HorizontalAlignment" Value="Right"/>
                                     <Setter Property="FontSize" Value="14"/>
                                 </Style>
@@ -309,7 +313,7 @@
 
                 </DataGrid>
             </Grid>
-        </Border>
+        </materialDesign:Card>
 
         <!-- ========== ACTION BUTTONS ========== -->
         <StackPanel Grid.Row="3" 
