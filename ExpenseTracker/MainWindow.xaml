@@ -221,6 +221,7 @@
                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
                              Height="40"
                              Margin="0,0,12,0"
+                             Padding="12,8"
                              materialDesign:HintAssist.Hint="Category"
                              VerticalContentAlignment="Center"
                              FontSize="13">
@@ -237,6 +238,7 @@
                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
                              Height="40"
                              Margin="0,0,12,0"
+                             Padding="12,8"
                              materialDesign:HintAssist.Hint="Payment Method"
                              VerticalContentAlignment="Center"
                              FontSize="13">
