@@ -5,13 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:helpers="clr-namespace:ExpenseTracker.Helpers"
         mc:Ignorable="d"
-        Title="Expense Tracker" Height="700" Width="1200"
+        Title="Expense Tracker" Height="750" Width="1280"
         WindowStartupLocation="CenterScreen"
-        Background="{DynamicResource AppBackgroundBrush}">
+        Background="{DynamicResource AppBackgroundBrush}"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        FontFamily="Segoe UI"
+        FontSize="13">
     <Window.Resources>
         <helpers:TextLengthToVisibilityConverter x:Key="TextLengthToVisibilityConverter"/>
     </Window.Resources>
-    <Grid Margin="20">
+    <Grid Margin="24">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -20,11 +26,15 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <Grid Grid.Row="0" Margin="0,0,0,20">
+        <Grid Grid.Row="0" Margin="0,0,0,24">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="💰" FontSize="32" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                <TextBlock Text="Expense Tracker" FontSize="28" FontWeight="Bold" 
-                          VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                <TextBlock Text="💰" FontSize="28" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Expense Tracker" FontSize="24" FontWeight="SemiBold" 
+                              Foreground="{DynamicResource PrimaryTextBrush}"/>
+                    <TextBlock Text="Manage your finances with ease" FontSize="12" 
+                              Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,2,0,0"/>
+                </StackPanel>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -157,7 +167,7 @@
         </Grid>
 
         <!-- Summary Cards -->
-        <Grid Grid.Row="1" Margin="0,0,0,20">
+        <Grid Grid.Row="1" Margin="0,0,0,24">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -167,33 +177,35 @@
             </Grid.ColumnDefinitions>
 
             <!-- Total Expenses Card -->
-            <Border Grid.Column="0" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="10" 
-                   Padding="15" Margin="0,0,5,0">
+            <Border Grid.Column="0" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="12" 
+                   Padding="20,16" Margin="0,0,8,0" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                 <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    <DropShadowEffect Color="{DynamicResource ShadowColor}" BlurRadius="16" ShadowDepth="0" Opacity="1"/>
                 </Border.Effect>
                 <StackPanel>
-                    <TextBlock Text="Total Expenses" FontSize="11" Foreground="{DynamicResource SecondaryTextBrush}" 
-                              Margin="0,0,0,5"/>
+                    <TextBlock Text="TOTAL EXPENSES" FontSize="10" FontWeight="Medium" 
+                              Foreground="{DynamicResource SecondaryTextBrush}" 
+                              Margin="0,0,0,8"/>
                     <TextBlock Text="{Binding TotalExpenses, StringFormat=₹{0:N0}}" 
-                              FontSize="24" FontWeight="Bold" Foreground="#E91E63"/>
+                              FontSize="26" FontWeight="SemiBold" Foreground="{DynamicResource DangerAccentBrush}"/>
                 </StackPanel>
             </Border>
 
             <!-- Monthly Total Card with Trend -->
-            <Border Grid.Column="1" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="10" 
-                   Padding="15" Margin="5,0">
+            <Border Grid.Column="1" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="12" 
+                   Padding="20,16" Margin="8,0" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                 <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    <DropShadowEffect Color="{DynamicResource ShadowColor}" BlurRadius="16" ShadowDepth="0" Opacity="1"/>
                 </Border.Effect>
                 <StackPanel>
-                    <TextBlock Text="This Month" FontSize="11" Foreground="{DynamicResource SecondaryTextBrush}" 
-                              Margin="0,0,0,5"/>
+                    <TextBlock Text="THIS MONTH" FontSize="10" FontWeight="Medium" 
+                              Foreground="{DynamicResource SecondaryTextBrush}" 
+                              Margin="0,0,0,8"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding MonthlyTotal, StringFormat=₹{0:N0}}" 
-                                  FontSize="24" FontWeight="Bold" Foreground="#4CAF50"/>
+                                  FontSize="26" FontWeight="SemiBold" Foreground="{DynamicResource SuccessAccentBrush}"/>
                         <TextBlock Text="{Binding TrendIndicator}" 
-                                  FontSize="14" FontWeight="SemiBold" 
+                                  FontSize="13" FontWeight="Medium" 
                                   Foreground="{Binding TrendColor}"
                                   VerticalAlignment="Bottom" Margin="8,0,0,2"/>
                     </StackPanel>
@@ -201,44 +213,47 @@
             </Border>
 
             <!-- Weekly Total Card -->
-            <Border Grid.Column="2" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="10" 
-                   Padding="15" Margin="5,0">
+            <Border Grid.Column="2" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="12" 
+                   Padding="20,16" Margin="8,0" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                 <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    <DropShadowEffect Color="{DynamicResource ShadowColor}" BlurRadius="16" ShadowDepth="0" Opacity="1"/>
                 </Border.Effect>
                 <StackPanel>
-                    <TextBlock Text="Last 7 Days" FontSize="11" Foreground="{DynamicResource SecondaryTextBrush}" 
-                              Margin="0,0,0,5"/>
+                    <TextBlock Text="LAST 7 DAYS" FontSize="10" FontWeight="Medium" 
+                              Foreground="{DynamicResource SecondaryTextBrush}" 
+                              Margin="0,0,0,8"/>
                     <TextBlock Text="{Binding WeeklyTotal, StringFormat=₹{0:N0}}" 
-                              FontSize="24" FontWeight="Bold" Foreground="#2196F3"/>
+                              FontSize="26" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryAccentBrush}"/>
                 </StackPanel>
             </Border>
 
             <!-- Average Daily Card -->
-            <Border Grid.Column="3" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="10" 
-                   Padding="15" Margin="5,0">
+            <Border Grid.Column="3" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="12" 
+                   Padding="20,16" Margin="8,0" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                 <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    <DropShadowEffect Color="{DynamicResource ShadowColor}" BlurRadius="16" ShadowDepth="0" Opacity="1"/>
                 </Border.Effect>
                 <StackPanel>
-                    <TextBlock Text="Avg Daily (Month)" FontSize="11" Foreground="{DynamicResource SecondaryTextBrush}" 
-                              Margin="0,0,0,5"/>
+                    <TextBlock Text="AVG DAILY" FontSize="10" FontWeight="Medium" 
+                              Foreground="{DynamicResource SecondaryTextBrush}" 
+                              Margin="0,0,0,8"/>
                     <TextBlock Text="{Binding AverageDaily, StringFormat=₹{0:N0}}" 
-                              FontSize="24" FontWeight="Bold" Foreground="#FF9800"/>
+                              FontSize="26" FontWeight="SemiBold" Foreground="{DynamicResource WarningAccentBrush}"/>
                 </StackPanel>
             </Border>
 
             <!-- Top Category Card -->
-            <Border Grid.Column="4" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="10" 
-                   Padding="15" Margin="5,0,0,0">
+            <Border Grid.Column="4" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="12" 
+                   Padding="20,16" Margin="8,0,0,0" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                 <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                    <DropShadowEffect Color="{DynamicResource ShadowColor}" BlurRadius="16" ShadowDepth="0" Opacity="1"/>
                 </Border.Effect>
                 <StackPanel>
-                    <TextBlock Text="Top Category" FontSize="11" Foreground="{DynamicResource SecondaryTextBrush}" 
-                              Margin="0,0,0,5"/>
+                    <TextBlock Text="TOP CATEGORY" FontSize="10" FontWeight="Medium" 
+                              Foreground="{DynamicResource SecondaryTextBrush}" 
+                              Margin="0,0,0,8"/>
                     <TextBlock Text="{Binding TopCategory}" 
-                              FontSize="18" FontWeight="Bold" Foreground="#9C27B0"
+                              FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource InfoAccentBrush}"
                               TextTrimming="CharacterEllipsis"/>
                 </StackPanel>
             </Border>

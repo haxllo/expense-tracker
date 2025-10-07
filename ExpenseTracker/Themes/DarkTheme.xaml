@@ -2,47 +2,47 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <!-- Background Colors -->
-    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#121212"/>
-    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#1E1E1E"/>
-    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#2D2D30"/>
-    <SolidColorBrush x:Key="HeaderBackgroundBrush" Color="#252526"/>
+    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#0F172A"/>
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#1E293B"/>
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#1E293B"/>
+    <SolidColorBrush x:Key="HeaderBackgroundBrush" Color="#1E293B"/>
     
     <!-- Text Colors -->
-    <SolidColorBrush x:Key="PrimaryTextBrush" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="SecondaryTextBrush" Color="#B0B0B0"/>
-    <SolidColorBrush x:Key="TertiaryTextBrush" Color="#808080"/>
+    <SolidColorBrush x:Key="PrimaryTextBrush" Color="#F1F5F9"/>
+    <SolidColorBrush x:Key="SecondaryTextBrush" Color="#94A3B8"/>
+    <SolidColorBrush x:Key="TertiaryTextBrush" Color="#64748B"/>
     
     <!-- Border Colors -->
-    <SolidColorBrush x:Key="BorderBrush" Color="#3E3E42"/>
-    <SolidColorBrush x:Key="DividerBrush" Color="#3E3E42"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="#334155"/>
+    <SolidColorBrush x:Key="DividerBrush" Color="#334155"/>
     
     <!-- Input Colors -->
-    <SolidColorBrush x:Key="InputBackgroundBrush" Color="#3E3E42"/>
-    <SolidColorBrush x:Key="InputBorderBrush" Color="#555555"/>
-    <SolidColorBrush x:Key="InputFocusBorderBrush" Color="#2196F3"/>
-    <SolidColorBrush x:Key="InputTextBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="InputBackgroundBrush" Color="#334155"/>
+    <SolidColorBrush x:Key="InputBorderBrush" Color="#475569"/>
+    <SolidColorBrush x:Key="InputFocusBorderBrush" Color="#3B82F6"/>
+    <SolidColorBrush x:Key="InputTextBrush" Color="#F1F5F9"/>
     
     <!-- Button Colors -->
-    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#2196F3"/>
-    <SolidColorBrush x:Key="ButtonHoverBrush" Color="#1976D2"/>
+    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#3B82F6"/>
+    <SolidColorBrush x:Key="ButtonHoverBrush" Color="#2563EB"/>
     <SolidColorBrush x:Key="ButtonTextBrush" Color="#FFFFFF"/>
     
     <!-- Accent Colors -->
-    <SolidColorBrush x:Key="PrimaryAccentBrush" Color="#2196F3"/>
-    <SolidColorBrush x:Key="SuccessAccentBrush" Color="#4CAF50"/>
-    <SolidColorBrush x:Key="WarningAccentBrush" Color="#FF9800"/>
-    <SolidColorBrush x:Key="DangerAccentBrush" Color="#E91E63"/>
-    <SolidColorBrush x:Key="InfoAccentBrush" Color="#9C27B0"/>
+    <SolidColorBrush x:Key="PrimaryAccentBrush" Color="#3B82F6"/>
+    <SolidColorBrush x:Key="SuccessAccentBrush" Color="#10B981"/>
+    <SolidColorBrush x:Key="WarningAccentBrush" Color="#F59E0B"/>
+    <SolidColorBrush x:Key="DangerAccentBrush" Color="#EF4444"/>
+    <SolidColorBrush x:Key="InfoAccentBrush" Color="#8B5CF6"/>
     
     <!-- DataGrid Colors -->
-    <SolidColorBrush x:Key="DataGridBackgroundBrush" Color="#2D2D30"/>
-    <SolidColorBrush x:Key="DataGridHeaderBrush" Color="#252526"/>
-    <SolidColorBrush x:Key="DataGridRowBrush" Color="#2D2D30"/>
-    <SolidColorBrush x:Key="DataGridAlternateRowBrush" Color="#333337"/>
-    <SolidColorBrush x:Key="DataGridSelectedBrush" Color="#094771"/>
-    <SolidColorBrush x:Key="DataGridGridLinesBrush" Color="#3E3E42"/>
+    <SolidColorBrush x:Key="DataGridBackgroundBrush" Color="#1E293B"/>
+    <SolidColorBrush x:Key="DataGridHeaderBrush" Color="#0F172A"/>
+    <SolidColorBrush x:Key="DataGridRowBrush" Color="#1E293B"/>
+    <SolidColorBrush x:Key="DataGridAlternateRowBrush" Color="#1A2332"/>
+    <SolidColorBrush x:Key="DataGridSelectedBrush" Color="#1E3A5F"/>
+    <SolidColorBrush x:Key="DataGridGridLinesBrush" Color="#334155"/>
     
     <!-- Shadow -->
-    <Color x:Key="ShadowColor">#80000000</Color>
+    <Color x:Key="ShadowColor">#60000000</Color>
     
 </ResourceDictionary>
