@@ -1,5 +1,6 @@
 using System;
 using System.Windows;
+using System.Windows.Input;
 using ExpenseTracker.ViewModels;
 
 namespace ExpenseTracker.Views
@@ -21,6 +22,14 @@ namespace ExpenseTracker.Views
                     disposable.Dispose();
                 }
             };
+        }
+
+        private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
         }
     }
 }

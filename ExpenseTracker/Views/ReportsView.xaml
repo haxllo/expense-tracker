@@ -19,11 +19,26 @@
         <Style x:Key="NoShadowRaisedButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
             <Setter Property="Background" Value="#171717"/>
             <Setter Property="Foreground" Value="#FAFAFA"/>
+            <Setter Property="Height" Value="37"/>
+            <Setter Property="FontWeight" Value="Medium"/>
             <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
+            <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#404040"/>
+                    <Setter Property="Background" Value="#2E2E2E"/>
                     <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- Close Button Style -->
+        <Style x:Key="CloseButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+            <Setter Property="Height" Value="37"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E8E8E8"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -46,20 +61,16 @@
                        VerticalAlignment="Center">
                 <Button Command="{Binding RefreshCommand}"
                        Style="{StaticResource NoShadowRaisedButton}"
-                       Height="40"
                        Padding="20,0"
-                       Margin="0,0,8,0"
-                       materialDesign:ButtonAssist.CornerRadius="8">
+                       Margin="0,0,8,0">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="↻" FontSize="18" Margin="0,0,6,0" VerticalAlignment="Center"/>
                         <TextBlock Text="Refresh" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button Click="CloseButton_Click"
-                       Style="{StaticResource MaterialDesignOutlinedButton}"
-                       Height="40"
-                       Padding="20,0"
-                       materialDesign:ButtonAssist.CornerRadius="8">
+                       Style="{StaticResource CloseButtonStyle}"
+                       Padding="20,0">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="✕" FontSize="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
                         <TextBlock Text="Close" FontSize="13" VerticalAlignment="Center"/>

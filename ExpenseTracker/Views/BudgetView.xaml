@@ -19,11 +19,26 @@
         <Style x:Key="NoShadowRaisedButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
             <Setter Property="Background" Value="#171717"/>
             <Setter Property="Foreground" Value="#FAFAFA"/>
+            <Setter Property="Height" Value="37"/>
+            <Setter Property="FontWeight" Value="Medium"/>
             <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
+            <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#404040"/>
+                    <Setter Property="Background" Value="#2E2E2E"/>
                     <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- Cancel Button Style -->
+        <Style x:Key="CancelButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+            <Setter Property="Height" Value="37"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E8E8E8"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -124,11 +139,9 @@
                    HorizontalAlignment="Right" 
                    Margin="0,24,0,0">
             <Button Command="{Binding CancelCommand}"
-                   Style="{StaticResource MaterialDesignOutlinedButton}"
-                   Height="44"
+                   Style="{StaticResource CancelButtonStyle}"
                    Padding="24,0"
-                   Margin="0,0,12,0"
-                   materialDesign:ButtonAssist.CornerRadius="8">
+                   Margin="0,0,12,0">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="✕" FontSize="18" Margin="0,0,8,0" VerticalAlignment="Center"/>
                     <TextBlock Text="Cancel" FontSize="14" VerticalAlignment="Center"/>
@@ -136,9 +149,7 @@
             </Button>
             <Button Command="{Binding SaveCommand}"
                    Style="{StaticResource NoShadowRaisedButton}"
-                   Height="44"
-                   Padding="24,0"
-                   materialDesign:ButtonAssist.CornerRadius="8">
+                   Padding="24,0">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="✓" FontSize="18" FontWeight="Bold" Margin="0,0,8,0" VerticalAlignment="Center"/>
                     <TextBlock Text="Save Budgets" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"/>

@@ -13,11 +13,11 @@ namespace ExpenseTracker.ViewModels
     public class AddExpenseViewModel : ViewModelBase, IDisposable
     {
         private IDataService? _dataService;
-        private decimal _amount;
+        private decimal? _amount;
         private int _selectedCategoryId;
         private string _description = string.Empty;
         private DateTime _date;
-        private string _paymentMethod = "Cash";
+        private string _paymentMethod = string.Empty;
         private ObservableCollection<Category> _categories;
         private bool _isEditMode;
         private int _expenseId;
@@ -27,7 +27,6 @@ namespace ExpenseTracker.ViewModels
         {
             _dataService = new DataService();
             _categories = new ObservableCollection<Category>();
-            _date = DateTime.Now;
 
             SaveCommand = new RelayCommand(async _ => await SaveExpenseAsync(), _ => CanSave());
             CancelCommand = new RelayCommand(_ => Cancel());
@@ -35,7 +34,7 @@ namespace ExpenseTracker.ViewModels
             LoadCategoriesAsync();
         }
 
-        public decimal Amount
+        public decimal? Amount
         {
             get => _amount;
             set => SetProperty(ref _amount, value);
@@ -112,15 +111,12 @@ namespace ExpenseTracker.ViewModels
                 Categories.Add(category);
             }
 
-            if (Categories.Count > 0 && SelectedCategoryId == 0)
-            {
-                SelectedCategoryId = Categories[0].Id;
-            }
+            // Don't auto-select first category - let user choose
         }
 
         private bool CanSave()
         {
-            return Amount > 0 && SelectedCategoryId > 0 && Date <= DateTime.Now;
+            return Amount.HasValue && Amount.Value > 0 && SelectedCategoryId > 0;
         }
 
         private async Task SaveExpenseAsync()
@@ -136,10 +132,10 @@ namespace ExpenseTracker.ViewModels
             {
                 var expense = new Expense
                 {
-                    Amount = Amount,
+                    Amount = Amount.Value,
                     CategoryId = SelectedCategoryId,
                     Description = Description,
-                    Date = Date,
+                    Date = IsEditMode ? Date : DateTime.Now,
                     PaymentMethod = PaymentMethod
                 };
 

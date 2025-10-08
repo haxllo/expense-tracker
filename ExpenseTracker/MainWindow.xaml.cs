@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Controls;
 using ExpenseTracker.ViewModels;
 
 namespace ExpenseTracker
@@ -9,6 +10,15 @@ namespace ExpenseTracker
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+        }
+
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.ContextMenu != null)
+            {
+                button.ContextMenu.PlacementTarget = button;
+                button.ContextMenu.IsOpen = true;
+            }
         }
     }
 }
