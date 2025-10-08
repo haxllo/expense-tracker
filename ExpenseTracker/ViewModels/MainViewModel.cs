@@ -303,7 +303,7 @@ namespace ExpenseTracker.ViewModels
                 $"Amount: ₹{SelectedExpense.Amount:N2}\n" +
                 $"Category: {SelectedExpense.Category?.Name}\n" +
                 $"Description: {SelectedExpense.Description}\n" +
-                $"Date: {SelectedExpense.Date:dd/MM/yyyy}",
+                $"Date: {SelectedExpense.Date:MMM d, yyyy}",
                 "Confirm Delete",
                 System.Windows.MessageBoxButton.YesNo,
                 System.Windows.MessageBoxImage.Warning);

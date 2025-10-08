@@ -15,6 +15,31 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto">
+    <Window.Resources>
+        <!-- Save Button Style - Same as Add Expense Button -->
+        <Style x:Key="SaveButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+            <Setter Property="Background" Value="#171717"/>
+            <Setter Property="Foreground" Value="#FAFAFA"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#404040"/>
+                    <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- Cancel Button Style - No Blue Border -->
+        <Style x:Key="CancelButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        </Style>
+    </Window.Resources>
     <Grid Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -96,7 +121,7 @@
                    HorizontalAlignment="Right" 
                    Margin="0,24,0,0">
             <Button Command="{Binding CancelCommand}"
-                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                   Style="{StaticResource CancelButtonStyle}"
                    Height="44"
                    Padding="24,0"
                    Margin="0,0,12,0"
@@ -107,9 +132,7 @@
                 </StackPanel>
             </Button>
             <Button Command="{Binding SaveCommand}"
-                   Style="{StaticResource MaterialDesignRaisedButton}"
-                   Background="#171717"
-                   Foreground="#FAFAFA"
+                   Style="{StaticResource SaveButtonStyle}"
                    Height="44"
                    Padding="24,0"
                    materialDesign:ButtonAssist.CornerRadius="8">

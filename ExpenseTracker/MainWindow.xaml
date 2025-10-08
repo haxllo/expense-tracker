@@ -24,13 +24,24 @@
         <Style x:Key="AddExpenseButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
             <Setter Property="Background" Value="#171717"/>
             <Setter Property="Foreground" Value="#FAFAFA"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#404040"/>
                     <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
                 </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Trigger>
             </Style.Triggers>
+        </Style>
+        
+        <!-- Custom Outlined Button Style - No Blue Border -->
+        <Style x:Key="OutlinedButtonNoBorder" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         </Style>
     </Window.Resources>
     <Grid Margin="32">
@@ -65,7 +76,7 @@
                     </StackPanel>
                 </Button>
                 <Button Command="{Binding RefreshCommand}"
-                       Style="{StaticResource MaterialDesignOutlinedButton}"
+                       Style="{StaticResource OutlinedButtonNoBorder}"
                        Height="40"
                        Padding="20,0"
                        Margin="0,0,8,0"
@@ -76,7 +87,7 @@
                     </StackPanel>
                 </Button>
                 <Button Command="{Binding ShowBudgetCommand}"
-                       Style="{StaticResource MaterialDesignOutlinedButton}"
+                       Style="{StaticResource OutlinedButtonNoBorder}"
                        Height="40"
                        Padding="20,0"
                        Margin="0,0,8,0"
@@ -87,7 +98,7 @@
                     </StackPanel>
                 </Button>
                 <Button Command="{Binding ShowReportsCommand}"
-                       Style="{StaticResource MaterialDesignOutlinedButton}"
+                       Style="{StaticResource OutlinedButtonNoBorder}"
                        Height="40"
                        Padding="20,0"
                        materialDesign:ButtonAssist.CornerRadius="8">
@@ -207,7 +218,7 @@
                 <StackPanel>
                     <TextBlock Text="Top Category" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding TopCategory}" 
-                              FontSize="20"
+                              FontSize="24"
                               FontWeight="Bold"
                               Foreground="{StaticResource TextPrimaryBrush}"
                               TextTrimming="CharacterEllipsis"
@@ -221,91 +232,89 @@
         </Grid>
 
         <!-- ========== FILTERS & SEARCH ========== -->
-        <materialDesign:Card Grid.Row="2" 
+        <Grid Grid.Row="2" Margin="0,0,0,24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Search Box with Icon -->
+            <Grid Grid.Column="0" Margin="0,0,12,0">
+                <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Height="40"
+                        Padding="35,0,12,0"
+                        VerticalContentAlignment="Center"
+                        FontSize="14"
+                        Foreground="#0A0A0A"
+                        BorderBrush="#E5E7EB"
+                        materialDesign:HintAssist.Hint="Search expenses..."
+                        materialDesign:HintAssist.Foreground="#737373" />
+                <TextBlock Text="🔍" 
+                          FontSize="16"
+                          Foreground="#737373"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Left"
+                          Margin="12,0,0,0"
+                          IsHitTestVisible="False"/>
+            </Grid>
+
+            <!-- Category Dropdown -->
+            <ComboBox Grid.Column="1"
+                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                     Height="40"
+                     Margin="0,0,12,0"
+                     Padding="12,8"
+                     BorderBrush="#E5E7EB"
+                     materialDesign:HintAssist.Hint="Category"
+                     VerticalContentAlignment="Center"
+                     FontSize="13">
+                <ComboBoxItem Content="All Categories" IsSelected="True"/>
+                <ComboBoxItem Content="Food"/>
+                <ComboBoxItem Content="Transport"/>
+                <ComboBoxItem Content="Shopping"/>
+                <ComboBoxItem Content="Entertainment"/>
+                <ComboBoxItem Content="Utilities"/>
+            </ComboBox>
+
+            <!-- Payment Method Dropdown -->
+            <ComboBox Grid.Column="2"
+                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                     Height="40"
+                     Margin="0,0,12,0"
+                     Padding="12,8"
+                     BorderBrush="#E5E7EB"
+                     materialDesign:HintAssist.Hint="Payment Method"
+                     VerticalContentAlignment="Center"
+                     FontSize="13">
+                <ComboBoxItem Content="All Methods" IsSelected="True"/>
+                <ComboBoxItem Content="Cash"/>
+                <ComboBoxItem Content="Credit Card"/>
+                <ComboBoxItem Content="Debit Card"/>
+                <ComboBoxItem Content="Digital Wallet"/>
+            </ComboBox>
+
+            <!-- Filter Icon Button -->
+            <Button Grid.Column="3"
+                   Style="{StaticResource MaterialDesignIconButton}"
+                   Width="40"
+                   Height="40"
+                   Foreground="{StaticResource TextPrimaryBrush}">
+                <TextBlock Text="⚙" FontSize="18" FontWeight="Normal"/>
+            </Button>
+        </Grid>
+
+        <!-- ========== EXPENSES LIST ========== -->
+        <materialDesign:Card Grid.Row="3" 
                             Margin="0,0,0,16" 
                             Padding="20"
-                            UniformCornerRadius="12"
-                            materialDesign:ElevationAssist.Elevation="Dp1">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <!-- Search and Filters -->
-                <Grid Grid.Row="0" Margin="0,0,0,16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="180"/>
-                        <ColumnDefinition Width="180"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <!-- Search Box with Icon -->
-                    <Grid Grid.Column="0" Margin="0,0,12,0">
-                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                Height="40"
-                                Padding="35,0,12,0"
-                                VerticalContentAlignment="Center"
-                                FontSize="14"
-                                Foreground="#0A0A0A"
-                                materialDesign:HintAssist.Hint="Search expenses..."
-                                materialDesign:HintAssist.Foreground="#737373" />
-                        <TextBlock Text="🔍" 
-                                  FontSize="16"
-                                  Foreground="#737373"
-                                  VerticalAlignment="Center"
-                                  HorizontalAlignment="Left"
-                                  Margin="12,0,0,0"
-                                  IsHitTestVisible="False"/>
-                    </Grid>
-
-                    <!-- Category Dropdown -->
-                    <ComboBox Grid.Column="1"
-                             Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                             Height="40"
-                             Margin="0,0,12,0"
-                             Padding="12,8"
-                             materialDesign:HintAssist.Hint="Category"
-                             VerticalContentAlignment="Center"
-                             FontSize="13">
-                        <ComboBoxItem Content="All Categories" IsSelected="True"/>
-                        <ComboBoxItem Content="Food"/>
-                        <ComboBoxItem Content="Transport"/>
-                        <ComboBoxItem Content="Shopping"/>
-                        <ComboBoxItem Content="Entertainment"/>
-                        <ComboBoxItem Content="Utilities"/>
-                    </ComboBox>
-
-                    <!-- Payment Method Dropdown -->
-                    <ComboBox Grid.Column="2"
-                             Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                             Height="40"
-                             Margin="0,0,12,0"
-                             Padding="12,8"
-                             materialDesign:HintAssist.Hint="Payment Method"
-                             VerticalContentAlignment="Center"
-                             FontSize="13">
-                        <ComboBoxItem Content="All Methods" IsSelected="True"/>
-                        <ComboBoxItem Content="Cash"/>
-                        <ComboBoxItem Content="Credit Card"/>
-                        <ComboBoxItem Content="Debit Card"/>
-                        <ComboBoxItem Content="Digital Wallet"/>
-                    </ComboBox>
-
-                    <!-- Filter Icon Button -->
-                    <Button Grid.Column="3"
-                           Style="{StaticResource MaterialDesignIconButton}"
-                           Width="40"
-                           Height="40"
-                           Foreground="{StaticResource TextPrimaryBrush}">
-                        <TextBlock Text="⚙" FontSize="18" FontWeight="Normal"/>
-                    </Button>
-                </Grid>
-
-                <!-- Expenses List -->
-                <DataGrid Grid.Row="1" 
+                            UniformCornerRadius="8"
+                            BorderBrush="#E5E7EB"
+                            BorderThickness="1"
+                            materialDesign:ElevationAssist.Elevation="Dp0">
+            <DataGrid 
                          ItemsSource="{Binding Expenses}" 
                          SelectedItem="{Binding SelectedExpense}"
                          Style="{StaticResource ModernDataGrid}"
@@ -313,26 +322,7 @@
                          ColumnHeaderStyle="{StaticResource ModernDataGridColumnHeader}"
                          CellStyle="{StaticResource ModernDataGridCell}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="DATE" Binding="{Binding Date, StringFormat=dd/MM/yyyy}" 
-                                          Width="120">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
-                                    <Setter Property="FontSize" Value="13"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="CATEGORY" Binding="{Binding Category.Name}" 
-                                          Width="140">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-                                    <Setter Property="FontSize" Value="13"/>
-                                    <Setter Property="FontWeight" Value="Medium"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="DESCRIPTION" Binding="{Binding Description}" 
+                        <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat='MMM d, yyyy'}" 
                                           Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
@@ -341,8 +331,18 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="PAYMENT" Binding="{Binding PaymentMethod}" 
-                                          Width="120">
+                        <DataGridTextColumn Header="Category" Binding="{Binding Category.Name}" 
+                                          Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="FontWeight" Value="Medium"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" 
+                                          Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
@@ -350,8 +350,22 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="AMOUNT" Binding="{Binding Amount, StringFormat=₹{0:N2}}" 
-                                          Width="140">
+                        <DataGridTextColumn Header="Payment" Binding="{Binding PaymentMethod}" 
+                                          Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=₹{0:N2}}" 
+                                          Width="*">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource ModernDataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontWeight" Value="SemiBold"/>
@@ -364,16 +378,15 @@
                     </DataGrid.Columns>
 
                 </DataGrid>
-            </Grid>
         </materialDesign:Card>
 
         <!-- ========== ACTION BUTTONS ========== -->
-        <StackPanel Grid.Row="3" 
+        <StackPanel Grid.Row="4" 
                    Orientation="Horizontal" 
                    HorizontalAlignment="Right" 
                    Margin="0,16,0,0">
             <Button Command="{Binding EditExpenseCommand}"
-                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                   Style="{StaticResource OutlinedButtonNoBorder}"
                    Height="40"
                    Padding="20,0"
                    Margin="0,0,8,0"
@@ -384,7 +397,7 @@
                 </StackPanel>
             </Button>
             <Button Command="{Binding DeleteExpenseCommand}"
-                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                   Style="{StaticResource OutlinedButtonNoBorder}"
                    Height="40"
                    Padding="20,0"
                    Foreground="#EF4444"
