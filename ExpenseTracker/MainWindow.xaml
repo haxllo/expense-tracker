@@ -45,7 +45,7 @@
         <!-- ========== HEADER ========== -->
         <Grid Grid.Row="0" Margin="0,0,0,32">
             <StackPanel>
-                <TextBlock Text="Expense Tracker" Style="{StaticResource Heading1}"/>
+                <TextBlock Text="ExpenseTracker" Style="{StaticResource Heading1}"/>
                 <TextBlock Text="Track and manage your expenses efficiently" 
                           Foreground="{StaticResource TextSecondaryBrush}" 
                           FontSize="14" 
@@ -118,11 +118,16 @@
                                 BorderThickness="1"
                                 materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
-                    <TextBlock Text="TOTAL EXPENSES" Style="{StaticResource StatsLabel}"/>
+                    <TextBlock Text="Total Expenses" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding TotalExpenses, StringFormat=₹{0:N0}}" 
-                              Style="{StaticResource StatsNumber}"
+                              FontSize="28"
+                              FontWeight="Bold"
                               Foreground="{StaticResource AccentMintBrush}"
                               Margin="0,8,0,0"/>
+                    <TextBlock Text="+12.5%" 
+                              FontSize="12"
+                              Foreground="#10B981"
+                              Margin="0,4,0,0"/>
                 </StackPanel>
             </materialDesign:Card>
 
@@ -135,11 +140,16 @@
                                 BorderThickness="1"
                                 materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
-                    <TextBlock Text="THIS MONTH" Style="{StaticResource StatsLabel}"/>
+                    <TextBlock Text="This Month" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding MonthlyTotal, StringFormat=₹{0:N0}}" 
-                              Style="{StaticResource StatsNumber}"
+                              FontSize="28"
+                              FontWeight="Bold"
                               Foreground="{StaticResource TextPrimaryBrush}"
                               Margin="0,8,0,0"/>
+                    <TextBlock Text="+8.2%" 
+                              FontSize="12"
+                              Foreground="#10B981"
+                              Margin="0,4,0,0"/>
                 </StackPanel>
             </materialDesign:Card>
 
@@ -152,11 +162,16 @@
                                 BorderThickness="1"
                                 materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
-                    <TextBlock Text="LAST 7 DAYS" Style="{StaticResource StatsLabel}"/>
+                    <TextBlock Text="Last 7 Days" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding WeeklyTotal, StringFormat=₹{0:N0}}" 
-                              Style="{StaticResource StatsNumber}"
+                              FontSize="28"
+                              FontWeight="Bold"
                               Foreground="{StaticResource TextPrimaryBrush}"
                               Margin="0,8,0,0"/>
+                    <TextBlock Text="-3.1%" 
+                              FontSize="12"
+                              Foreground="#EF4444"
+                              Margin="0,4,0,0"/>
                 </StackPanel>
             </materialDesign:Card>
 
@@ -169,11 +184,16 @@
                                 BorderThickness="1"
                                 materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
-                    <TextBlock Text="AVG DAILY" Style="{StaticResource StatsLabel}"/>
+                    <TextBlock Text="AVG Daily" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding AverageDaily, StringFormat=₹{0:N0}}" 
-                              Style="{StaticResource StatsNumber}"
+                              FontSize="28"
+                              FontWeight="Bold"
                               Foreground="{StaticResource TextPrimaryBrush}"
                               Margin="0,8,0,0"/>
+                    <TextBlock Text="+5.7%" 
+                              FontSize="12"
+                              Foreground="#10B981"
+                              Margin="0,4,0,0"/>
                 </StackPanel>
             </materialDesign:Card>
 
@@ -185,13 +205,17 @@
                                 BorderThickness="1"
                                 materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
-                    <TextBlock Text="TOP CATEGORY" Style="{StaticResource StatsLabel}"/>
+                    <TextBlock Text="Top Category" Style="{StaticResource StatsLabel}"/>
                     <TextBlock Text="{Binding TopCategory}" 
-                              FontSize="18"
-                              FontWeight="SemiBold"
-                              Foreground="{StaticResource AccentVioletBrush}"
+                              FontSize="20"
+                              FontWeight="Bold"
+                              Foreground="{StaticResource TextPrimaryBrush}"
                               TextTrimming="CharacterEllipsis"
                               Margin="0,8,0,0"/>
+                    <TextBlock Text="₹1,234.50" 
+                              FontSize="14"
+                              Foreground="{StaticResource TextSecondaryBrush}"
+                              Margin="0,4,0,0"/>
                 </StackPanel>
             </materialDesign:Card>
         </Grid>
