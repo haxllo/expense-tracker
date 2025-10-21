@@ -5,7 +5,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Add Expense" SizeToContent="Height" Width="500" MaxWidth="500"
         WindowStartupLocation="CenterScreen"
-        Background="{StaticResource AppBackgroundBrush}" 
+        Background="Transparent" 
         ResizeMode="NoResize"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -26,14 +26,72 @@
         <Style x:Key="CustomTextBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
             <Setter Property="materialDesign:HintAssist.Foreground" Value="#B3B3B3"/>
             <Setter Property="materialDesign:TextFieldAssist.TextBoxViewMargin" Value="0"/>
+            <Setter Property="materialDesign:TextFieldAssist.TextFieldCornerRadius" Value="10"/>
+            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#4A4A4A"/>
+            <Setter Property="BorderBrush" Value="#E5E5E5"/>
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#4A4A4A"/>
+                    <Setter Property="BorderThickness" Value="0.5"/>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="#CFCFCF" BlurRadius="2" ShadowDepth="0" Opacity="1"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
         </Style>
         
         <Style x:Key="CustomComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
             <Setter Property="materialDesign:HintAssist.Foreground" Value="#B3B3B3"/>
+            <Setter Property="materialDesign:TextFieldAssist.TextFieldCornerRadius" Value="10"/>
+            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#4A4A4A"/>
+            <Setter Property="BorderBrush" Value="#E5E5E5"/>
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="BorderBrush" Value="#4A4A4A"/>
+                    <Setter Property="BorderThickness" Value="0.5"/>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="#CFCFCF" BlurRadius="2" ShadowDepth="0" Opacity="1"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- Custom ComboBox Item Style -->
+        <Style x:Key="CustomComboBoxItem" TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F5F5F5"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
         
         <Style x:Key="CustomDatePicker" TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignOutlinedDatePicker}">
             <Setter Property="materialDesign:HintAssist.Foreground" Value="#B3B3B3"/>
+            <Setter Property="materialDesign:TextFieldAssist.TextFieldCornerRadius" Value="10"/>
+            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#4A4A4A"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="BorderBrush" Value="#4A4A4A"/>
+                    <Setter Property="BorderThickness" Value="0.5"/>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="#CFCFCF" BlurRadius="2" ShadowDepth="0" Opacity="1"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
         </Style>
         
         <!-- Save Button Style - Same as Add Expense Button -->
@@ -63,16 +121,18 @@
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Height" Value="37"/>
             <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="BorderBrush" Value="#E5E5E5"/>
+            <Setter Property="Foreground" Value="#0A0A0A"/>
             <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#E8E8E8"/>
+                    <Setter Property="Background" Value="#F5F5F5"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
     <Border Background="{StaticResource AppBackgroundBrush}" 
-            CornerRadius="12" 
+            CornerRadius="10" 
             BorderThickness="1" 
             BorderBrush="#E0E0E0">
         <Grid Margin="24">
@@ -82,27 +142,33 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Close Button -->
+        <Button Command="{Binding CancelCommand}"
+               Grid.Row="0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Background="Transparent"
+               BorderThickness="0"
+               Padding="8"
+               Width="32"
+               Height="32"
+               Margin="0,-4,0,0"
+               Cursor="Hand"
+               Panel.ZIndex="1">
+            <TextBlock Text="✕" FontSize="18" Foreground="#737373"/>
+        </Button>
+        
         <!-- Header -->
         <Grid Grid.Row="0" Margin="0,0,0,24" MouseLeftButtonDown="Header_MouseLeftButtonDown" Background="Transparent">
             <StackPanel>
                 <TextBlock Text="Add New Expense" 
-                          Style="{StaticResource Heading2}"/>
+                          Style="{StaticResource Heading2}"
+                          FontSize="24"
+                          FontWeight="Bold"/>
                 <TextBlock Text="Fill in the details below" 
                           Style="{StaticResource BodyText}"
                           Margin="0,8,0,0"/>
             </StackPanel>
-            
-            <Button Command="{Binding CancelCommand}"
-                   HorizontalAlignment="Right"
-                   VerticalAlignment="Top"
-                   Background="Transparent"
-                   BorderThickness="0"
-                   Padding="8"
-                   Width="32"
-                   Height="32"
-                   Cursor="Hand">
-                <TextBlock Text="✕" FontSize="18" Foreground="#737373"/>
-            </Button>
         </Grid>
 
         <!-- Form -->
@@ -137,6 +203,7 @@
                              SelectedValuePath="Id"
                              DisplayMemberPath="Name"
                              Style="{StaticResource CustomComboBox}"
+                             ItemContainerStyle="{StaticResource CustomComboBoxItem}"
                              materialDesign:HintAssist.Hint="Select a category"
                              materialDesign:HintAssist.IsFloating="False"
                              Foreground="#0A0A0A"
@@ -165,7 +232,7 @@
                 </StackPanel>
 
                 <!-- Payment Method -->
-                <StackPanel>
+                <StackPanel Margin="0,0,0,20">
                     <TextBlock Text="Payment Method" 
                               FontSize="13" 
                               FontWeight="Medium" 
@@ -173,6 +240,7 @@
                               Margin="0,0,0,8"/>
                     <ComboBox SelectedItem="{Binding PaymentMethod}" 
                              Style="{StaticResource CustomComboBox}"
+                             ItemContainerStyle="{StaticResource CustomComboBoxItem}"
                              materialDesign:HintAssist.Hint="Select payment method"
                              materialDesign:HintAssist.IsFloating="False"
                              Foreground="#0A0A0A"

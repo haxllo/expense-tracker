@@ -3,9 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Reports and Analytics" Height="750" Width="1100"
+        Title="Reports and Analytics" Height="780" Width="1100"
         WindowStartupLocation="CenterScreen"
-        Background="{StaticResource AppBackgroundBrush}"
+        Background="Transparent"
+        WindowStyle="None"
+        AllowsTransparency="True"
         UseLayoutRounding="True"
         SnapsToDevicePixels="True"
         FontFamily="{StaticResource PrimaryFont}"
@@ -19,6 +21,9 @@
         <Style x:Key="NoShadowRaisedButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
             <Setter Property="Background" Value="#171717"/>
             <Setter Property="Foreground" Value="#FAFAFA"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Height" Value="37"/>
             <Setter Property="FontWeight" Value="Medium"/>
             <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
@@ -28,221 +33,579 @@
                     <Setter Property="Background" Value="#2E2E2E"/>
                     <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
                 </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Trigger>
             </Style.Triggers>
         </Style>
         
         <!-- Close Button Style -->
         <Style x:Key="CloseButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Height" Value="37"/>
             <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="BorderBrush" Value="#E5E5E5"/>
+            <Setter Property="Foreground" Value="#0A0A0A"/>
             <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="10"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#E8E8E8"/>
+                    <Setter Property="Background" Value="#F5F5F5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- Insight Card Style -->
+        <Style x:Key="InsightCardStyle" TargetType="materialDesign:Card">
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="UniformCornerRadius" Value="12"/>
+            <Setter Property="BorderBrush" Value="#E5E5E5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#000000" 
+                                    BlurRadius="8" 
+                                    ShadowDepth="2" 
+                                    Opacity="0.08" 
+                                    Direction="270"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#88171717"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- Clean ComboBoxItem Style -->
+        <Style x:Key="CleanComboBoxItem" TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#0A0A0A"/>
+            <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#F5F5F5"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#F5F5F5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Clean ComboBox Style with Reduced Shadow -->
+        <Style x:Key="CleanComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
+            <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp2"/>
+            <Setter Property="BorderBrush" Value="#D1D1D1"/>
+            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#D1D1D1"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp2"/>
+                    <Setter Property="BorderBrush" Value="#A1A1A1"/>
+                    <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#A1A1A1"/>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#A1A1A1"/>
+                    <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="#A1A1A1"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <Grid Margin="16">
+    <Border Background="{StaticResource AppBackgroundBrush}" 
+            CornerRadius="10" 
+            BorderThickness="1" 
+            BorderBrush="#E0E0E0">
+        <Grid Margin="24">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- Close Button -->
+        <Button Click="CloseButton_Click"
+               Grid.Row="0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Background="Transparent"
+               BorderThickness="0"
+               Padding="8"
+               Width="32"
+               Height="32"
+               Margin="0,-12,0,0"
+               Cursor="Hand"
+               Panel.ZIndex="1">
+            <TextBlock Text="✕" FontSize="18" Foreground="#737373"/>
+        </Button>
+        
         <!-- Header -->
-        <Grid Grid.Row="0" Margin="0,0,0,16">
+        <Grid Grid.Row="0" Margin="0,0,0,24" MouseLeftButtonDown="Header_MouseLeftButtonDown" Background="Transparent">
             <TextBlock Text="Reports and Analytics" 
                       Style="{StaticResource Heading1}"
+                      FontSize="24"
+                      FontWeight="Bold"
                       VerticalAlignment="Center"/>
             
-            <StackPanel Orientation="Horizontal" 
-                       HorizontalAlignment="Right"
-                       VerticalAlignment="Center">
-                <Button Command="{Binding RefreshCommand}"
-                       Style="{StaticResource NoShadowRaisedButton}"
-                       Padding="20,0"
-                       Margin="0,0,8,0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="↻" FontSize="18" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                        <TextBlock Text="Refresh" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-                <Button Click="CloseButton_Click"
-                       Style="{StaticResource CloseButtonStyle}"
-                       Padding="20,0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="✕" FontSize="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                        <TextBlock Text="Close" FontSize="13" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-            </StackPanel>
+            <!-- Time Period Dropdown -->
+            <ComboBox SelectedIndex="1"
+                     HorizontalAlignment="Right"
+                     VerticalAlignment="Center"
+                     Width="160"
+                     Margin="0,0,40,0"
+                     Height="40"
+                     FontSize="13"
+                     Padding="12,8"
+                     Style="{StaticResource CleanComboBox}"
+                     ItemContainerStyle="{StaticResource CleanComboBoxItem}"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                     HorizontalContentAlignment="Left"
+                     VerticalContentAlignment="Center">
+                <ComboBoxItem Content="Last 7 Days"/>
+                <ComboBoxItem Content="Last 30 Days"/>
+                <ComboBoxItem Content="Last 90 Days"/>
+                <ComboBoxItem Content="Last Year"/>
+            </ComboBox>
         </Grid>
 
-        <!-- Summary Cards & Date Filter -->
-        <Grid Grid.Row="1" Margin="0,0,0,24">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- Total Amount Card -->
-            <materialDesign:Card Grid.Column="0" 
-                                Margin="0,0,6,0"
-                                Padding="12"
-                                UniformCornerRadius="6"
-                                BorderBrush="#E5E7EB"
-                                BorderThickness="1"
-                                materialDesign:ElevationAssist.Elevation="Dp0">
-                <StackPanel>
-                    <TextBlock Text="Total Expenses" 
-                              Style="{StaticResource StatsLabel}"/>
-                    <TextBlock Text="{Binding TotalAmount, StringFormat=₹{0:N2}}" 
-                              Style="{StaticResource StatsValue}"
-                              Foreground="#171717"/>
-                </StackPanel>
-            </materialDesign:Card>
-
-            <!-- Average Daily Card -->
-            <materialDesign:Card Grid.Column="1" 
-                                Margin="3,0"
-                                Padding="12"
-                                UniformCornerRadius="6"
-                                BorderBrush="#E5E7EB"
-                                BorderThickness="1"
-                                materialDesign:ElevationAssist.Elevation="Dp0">
-                <StackPanel>
-                    <TextBlock Text="Daily Average" 
-                              Style="{StaticResource StatsLabel}"/>
-                    <TextBlock Text="{Binding AverageDaily, StringFormat=₹{0:N2}}" 
-                              Style="{StaticResource StatsValue}"/>
-                </StackPanel>
-            </materialDesign:Card>
-
-            <!-- Top Category Card -->
-            <materialDesign:Card Grid.Column="2" 
-                                Margin="3,0,6,0"
-                                Padding="12"
-                                UniformCornerRadius="6"
-                                BorderBrush="#E5E7EB"
-                                BorderThickness="1"
-                                materialDesign:ElevationAssist.Elevation="Dp0">
-                <StackPanel>
-                    <TextBlock Text="Top Category" 
-                              Style="{StaticResource StatsLabel}"/>
-                    <TextBlock Text="{Binding TopCategory}" 
-                              Style="{StaticResource StatsValue}"
-                              Foreground="#171717"/>
-                </StackPanel>
-            </materialDesign:Card>
-
-            <!-- Date Range Selector -->
-            <materialDesign:Card Grid.Column="3" 
-                                Padding="12"
-                                Margin="6,0,0,0"
-                                UniformCornerRadius="6"
-                                BorderBrush="#E5E7EB"
-                                BorderThickness="1"
-                                materialDesign:ElevationAssist.Elevation="Dp0">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="From" 
-                              Style="{StaticResource BodyText}"
-                              VerticalAlignment="Center" 
-                              Margin="0,0,6,0"/>
-                    <DatePicker SelectedDate="{Binding StartDate}" 
-                               Style="{StaticResource MaterialDesignOutlinedDatePicker}"
-                               Width="110" 
-                               Margin="0,0,8,0"/>
-                    <TextBlock Text="To" 
-                              Style="{StaticResource BodyText}"
-                              VerticalAlignment="Center" 
-                              Margin="0,0,6,0"/>
-                    <DatePicker SelectedDate="{Binding EndDate}" 
-                               Style="{StaticResource MaterialDesignOutlinedDatePicker}"
-                               Width="110"/>
-                </StackPanel>
-            </materialDesign:Card>
-        </Grid>
-
-        <!-- Charts Grid -->
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+        <!-- Key Insights Section -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <!-- Category Pie Chart -->
-                <materialDesign:Card Padding="16" 
-                                    Margin="0,0,0,12"
-                                    UniformCornerRadius="8"
-                                    BorderBrush="#E5E7EB"
-                                BorderThickness="1"
-                                materialDesign:ElevationAssist.Elevation="Dp0">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="240"/>
-                        </Grid.RowDefinitions>
-                        
-                        <TextBlock Grid.Row="0" 
-                                  Text="Expenses by Category" 
-                                  Style="{StaticResource Heading3}"
-                                  Margin="0,0,0,12"/>
-                        
-                        <lvc:PieChart Grid.Row="1" Series="{Binding CategoryPieChart}"
-                                     LegendPosition="Right"
-                                     InitialRotation="-90">
-                        </lvc:PieChart>
-                    </Grid>
-                </materialDesign:Card>
+                <!-- Section Header -->
+                <TextBlock Text="Key Insights" 
+                          FontSize="18"
+                          FontWeight="SemiBold"
+                          Foreground="#0A0A0A"
+                          Margin="0,0,0,16"/>
+                
+                <!-- First Row - 3 Cards -->
+                <Grid Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <!-- Monthly Bar Chart -->
-                <materialDesign:Card Padding="16" 
-                                    Margin="0,0,0,12"
-                                    UniformCornerRadius="8"
-                                    BorderBrush="#E5E7EB"
-                                BorderThickness="1"
-                                materialDesign:ElevationAssist.Elevation="Dp0">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="200"/>
-                        </Grid.RowDefinitions>
-                        
-                        <TextBlock Grid.Row="0" 
-                                  Text="Monthly Spending Trends (Last 6 Months)" 
-                                  Style="{StaticResource Heading3}"
-                                  Margin="0,0,0,12"/>
-                        
-                        <lvc:CartesianChart Grid.Row="1" Series="{Binding MonthlyBarChart}"
-                                           XAxes="{Binding MonthlyXAxis}"
-                                           LegendPosition="Bottom">
-                        </lvc:CartesianChart>
-                    </Grid>
-                </materialDesign:Card>
+                    <!-- Card 1: Highest Expense -->
+                    <materialDesign:Card Grid.Column="0" 
+                                        Style="{StaticResource InsightCardStyle}"
+                                        Margin="0,0,16,0">
+                        <Grid>
+                            <!-- Top Row: Date on Right -->
+                            <TextBlock Text="Jan 15" 
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Top"
+                                      FontSize="12"
+                                      FontWeight="Medium"
+                                      Foreground="#8F8F8F"/>
+                            
+                            <!-- Main Content -->
+                            <StackPanel VerticalAlignment="Top">
+                                <!-- Icon -->
+                                <Border Background="#19DC2626"
+                                       CornerRadius="8"
+                                       Padding="8"
+                                       Width="36"
+                                       Height="36"
+                                       HorizontalAlignment="Left"
+                                       Margin="0,0,0,21">
+                                    <materialDesign:PackIcon Kind="CurrencyUsd"
+                                                            Width="20"
+                                                            Height="20"
+                                                            Foreground="#DC2626"/>
+                                </Border>
+                                
+                                <!-- Heading -->
+                                <TextBlock Text="Highest Expense" 
+                                          FontSize="14"
+                                          FontWeight="SemiBold"
+                                          Foreground="#8F8F8F"
+                                          Margin="0,0,0,14"/>
+                                
+                                <!-- Value -->
+                                <TextBlock Text="$5,240.00" 
+                                          FontSize="24"
+                                          FontWeight="Bold"
+                                          Foreground="#0A0A0A"
+                                          Margin="0,0,0,14"/>
+                                
+                                <!-- Category -->
+                                <TextBlock Text="Shopping" 
+                                          FontSize="14"
+                                          Foreground="#8F8F8F"/>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
 
-                <!-- Daily Line Chart -->
-                <materialDesign:Card Padding="16"
-                                    UniformCornerRadius="8"
-                                    BorderBrush="#E5E7EB"
-                                BorderThickness="1"
-                                materialDesign:ElevationAssist.Elevation="Dp0">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="200"/>
-                        </Grid.RowDefinitions>
-                        
-                        <TextBlock Grid.Row="0" 
-                                  Text="Daily Spending Pattern (Last 30 Days)" 
-                                  Style="{StaticResource Heading3}"
-                                  Margin="0,0,0,12"/>
-                        
-                        <lvc:CartesianChart Grid.Row="1" Series="{Binding DailyLineChart}"
-                                           XAxes="{Binding DailyXAxis}"
-                                           LegendPosition="Bottom">
-                        </lvc:CartesianChart>
-                    </Grid>
-                </materialDesign:Card>
+                    <!-- Card 2: Top Category -->
+                    <materialDesign:Card Grid.Column="1" 
+                                        Style="{StaticResource InsightCardStyle}"
+                                        Margin="0,0,16,0">
+                        <Grid>
+                            <!-- Top Row: Percentage on Right -->
+                            <TextBlock Text="42%" 
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Top"
+                                      FontSize="12"
+                                      FontWeight="Medium"
+                                      Foreground="#8F8F8F"/>
+                            
+                            <!-- Main Content -->
+                            <StackPanel VerticalAlignment="Top">
+                                <!-- Icon -->
+                                <Border Background="#1910B981"
+                                       CornerRadius="8"
+                                       Padding="8"
+                                       Width="36"
+                                       Height="36"
+                                       HorizontalAlignment="Left"
+                                       Margin="0,0,0,21">
+                                    <materialDesign:PackIcon Kind="ChartBar"
+                                                            Width="20"
+                                                            Height="20"
+                                                            Foreground="#10B981"/>
+                                </Border>
+                                
+                                <!-- Heading -->
+                                <TextBlock Text="Top Category" 
+                                          FontSize="14"
+                                          FontWeight="SemiBold"
+                                          Foreground="#8F8F8F"
+                                          Margin="0,0,0,14"/>
+                                
+                                <!-- Value -->
+                                <TextBlock Text="$12,480.00" 
+                                          FontSize="24"
+                                          FontWeight="Bold"
+                                          Foreground="#0A0A0A"
+                                          Margin="0,0,0,14"/>
+                                
+                                <!-- Category Name -->
+                                <TextBlock Text="Food &amp; Dining" 
+                                          FontSize="14"
+                                          Foreground="#8F8F8F"/>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+
+                    <!-- Card 3: Avg Daily Spending -->
+                    <materialDesign:Card Grid.Column="2" 
+                                        Style="{StaticResource InsightCardStyle}"
+                                        Margin="0">
+                        <Grid>
+                            <!-- Top Row: Comparison on Right -->
+                            <TextBlock Text="↑ 12%" 
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Top"
+                                      FontSize="12"
+                                      FontWeight="Medium"
+                                      Foreground="#16A34A"/>
+                            
+                            <!-- Main Content -->
+                            <StackPanel VerticalAlignment="Top">
+                                <!-- Icon -->
+                                <Border Background="#198B5CF6"
+                                       CornerRadius="8"
+                                       Padding="8"
+                                       Width="36"
+                                       Height="36"
+                                       HorizontalAlignment="Left"
+                                       Margin="0,0,0,21">
+                                    <materialDesign:PackIcon Kind="TrendingUp"
+                                                            Width="20"
+                                                            Height="20"
+                                                            Foreground="#8B5CF6"/>
+                                </Border>
+                                
+                                <!-- Heading -->
+                                <TextBlock Text="Avg Daily Spending" 
+                                          FontSize="14"
+                                          FontWeight="SemiBold"
+                                          Foreground="#8F8F8F"
+                                          Margin="0,0,0,14"/>
+                                
+                                <!-- Value -->
+                                <TextBlock Text="$985.00" 
+                                          FontSize="24"
+                                          FontWeight="Bold"
+                                          Foreground="#0A0A0A"
+                                          Margin="0,0,0,14"/>
+                                
+                                <!-- Period Info -->
+                                <TextBlock Text="Last 30 days" 
+                                          FontSize="14"
+                                          Foreground="#8F8F8F"/>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+                </Grid>
+
+                <!-- Second Row - 2 Cards -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Card 4: Unusual Activity -->
+                    <materialDesign:Card Grid.Column="0" 
+                                        Style="{StaticResource InsightCardStyle}"
+                                        Margin="0,0,16,0">
+                        <StackPanel VerticalAlignment="Top">
+                            <!-- Icon -->
+                            <Border Background="#19F59E0B"
+                                   CornerRadius="8"
+                                   Padding="8"
+                                   Width="36"
+                                   Height="36"
+                                   HorizontalAlignment="Left"
+                                   Margin="0,0,0,21">
+                                <materialDesign:PackIcon Kind="AlertCircle"
+                                                        Width="20"
+                                                        Height="20"
+                                                        Foreground="#F59E0B"/>
+                            </Border>
+                            
+                            <!-- Heading -->
+                            <TextBlock Text="Unusual Activity" 
+                                      FontSize="14"
+                                      FontWeight="SemiBold"
+                                      Foreground="#8F8F8F"
+                                      Margin="0,0,0,14"/>
+                            
+                            <!-- Placeholder -->
+                            <TextBlock Text="No unusual activity detected" 
+                                      FontSize="14"
+                                      Foreground="#8F8F8F"
+                                      Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- Card 5: Savings Goal Progress -->
+                    <materialDesign:Card Grid.Column="1" 
+                                        Style="{StaticResource InsightCardStyle}"
+                                        Margin="0">
+                        <Grid>
+                            <!-- Top Row: Percentage on Right -->
+                            <TextBlock Text="68%" 
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Top"
+                                      FontSize="12"
+                                      FontWeight="Medium"
+                                      Foreground="#8F8F8F"/>
+                            
+                            <!-- Main Content -->
+                            <StackPanel VerticalAlignment="Top">
+                                <!-- Icon -->
+                                <Border Background="#198B5CF6"
+                                       CornerRadius="8"
+                                       Padding="8"
+                                       Width="36"
+                                       Height="36"
+                                       HorizontalAlignment="Left"
+                                       Margin="0,0,0,21">
+                                    <materialDesign:PackIcon Kind="Target"
+                                                            Width="20"
+                                                            Height="20"
+                                                            Foreground="#8B5CF6"/>
+                                </Border>
+                                
+                                <!-- Heading -->
+                                <TextBlock Text="Savings Goal Progress" 
+                                          FontSize="14"
+                                          FontWeight="SemiBold"
+                                          Foreground="#8F8F8F"
+                                          Margin="0,0,0,14"/>
+                                
+                                <!-- Value -->
+                                <TextBlock Text="$34,000 / $50,000" 
+                                          FontSize="18"
+                                          FontWeight="SemiBold"
+                                          Foreground="#0A0A0A"
+                                          Margin="0,0,0,21"/>
+                                
+                                <!-- Progress Bar -->
+                                <Border Background="#E5E5E5" 
+                                       CornerRadius="4" 
+                                       Height="8">
+                                    <Border Background="#009689"
+                                           CornerRadius="4"
+                                           HorizontalAlignment="Left"
+                                           Width="272"/>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+                </Grid>
+                
+                <!-- Section 2: Two Column Cards -->
+                <Grid Margin="0,32,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Left Card: Category Breakdown -->
+                    <materialDesign:Card Grid.Column="0"
+                                        Style="{StaticResource InsightCardStyle}"
+                                        Padding="24">
+                        <StackPanel>
+                            <!-- Header -->
+                            <TextBlock Text="Category Breakdown" 
+                                      FontSize="18"
+                                      FontWeight="SemiBold"
+                                      Foreground="#0A0A0A"
+                                      Margin="0,0,0,4"/>
+                            <TextBlock Text="Spending distribution by category" 
+                                      FontSize="13"
+                                      Foreground="#737373"
+                                      Margin="0,0,0,24"/>
+                            
+                            <!-- Pie Chart -->
+                            <lvc:PieChart Series="{Binding CategoryPieChart}"
+                                         Height="280"
+                                         LegendPosition="Hidden"
+                                         Margin="0,0,0,24"/>
+                            
+                            <!-- Legend Below Chart -->
+                            <ItemsControl ItemsSource="{Binding CategoryLegendItems}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,0,0,12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <!-- Color Indicator -->
+                                            <Ellipse Grid.Column="0"
+                                                    Width="12"
+                                                    Height="12"
+                                                    Fill="{Binding Color}"
+                                                    VerticalAlignment="Center"
+                                                    Margin="0,0,10,0"/>
+                                            
+                                            <!-- Category Name -->
+                                            <TextBlock Grid.Column="1"
+                                                      Text="{Binding Category}"
+                                                      FontSize="13"
+                                                      Foreground="#0A0A0A"
+                                                      VerticalAlignment="Center"
+                                                      Margin="0,0,16,0"/>
+                                            
+                                            <!-- Percentage -->
+                                            <TextBlock Grid.Column="2"
+                                                      FontSize="13"
+                                                      Foreground="#737373"
+                                                      VerticalAlignment="Center"
+                                                      Margin="0,0,16,0"
+                                                      MinWidth="50"
+                                                      TextAlignment="Right">
+                                                <Run Text="{Binding Percentage, StringFormat=F1, Mode=OneWay}"/><Run Text="%"/>
+                                            </TextBlock>
+                                            
+                                            <!-- Amount -->
+                                            <TextBlock Grid.Column="3"
+                                                      Text="{Binding Amount, StringFormat=$#\,0.00}"
+                                                      FontSize="13"
+                                                      Foreground="#0A0A0A"
+                                                      FontWeight="Medium"
+                                                      VerticalAlignment="Center"
+                                                      MinWidth="80"
+                                                      TextAlignment="Right"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </materialDesign:Card>
+                    
+                    <!-- Right Card: Budget vs Actual Spending -->
+                    <materialDesign:Card Grid.Column="2"
+                                        Style="{StaticResource InsightCardStyle}"
+                                        Padding="24">
+                        <StackPanel>
+                            <!-- Header -->
+                            <TextBlock Text="Budget vs Actual" 
+                                      FontSize="18"
+                                      FontWeight="SemiBold"
+                                      Foreground="#0A0A0A"
+                                      Margin="0,0,0,4"/>
+                            <TextBlock Text="Compare spending against budgets" 
+                                      FontSize="13"
+                                      Foreground="#737373"
+                                      Margin="0,0,0,24"/>
+                            
+                            <!-- Budget Comparison List -->
+                            <ItemsControl ItemsSource="{Binding BudgetComparisonItems}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,0,0,24">
+                                            <!-- Category Name and Amounts -->
+                                            <Grid Margin="0,0,0,8">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                
+                                                <TextBlock Grid.Column="0"
+                                                          Text="{Binding Category}"
+                                                          FontSize="14"
+                                                          FontWeight="SemiBold"
+                                                          Foreground="#0A0A0A"/>
+                                                
+                                                <TextBlock Grid.Column="1"
+                                                          FontSize="13"
+                                                          Foreground="#737373">
+                                                    <Run Text="{Binding Spent, StringFormat=$#\,0}" Foreground="#0A0A0A" FontWeight="Medium"/>
+                                                    <Run Text=" / "/>
+                                                    <Run Text="{Binding Budget, StringFormat=$#\,0}"/>
+                                                </TextBlock>
+                                            </Grid>
+                                            
+                                            <!-- Progress Bar -->
+                                            <Border Background="#E5E5E5" 
+                                                   CornerRadius="4" 
+                                                   Height="8">
+                                                <Border Background="{Binding BarColor}"
+                                                       CornerRadius="4"
+                                                       HorizontalAlignment="Left"
+                                                       Width="{Binding BarWidth}"/>
+                                            </Border>
+                                            
+                                            <!-- Percentage -->
+                                            <TextBlock FontSize="12"
+                                                      Foreground="{Binding PercentageColor}"
+                                                      Margin="0,4,0,0">
+                                                <Run Text="{Binding Percentage, StringFormat=F0}"/><Run Text="% used"/>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </Grid>
             </StackPanel>
         </ScrollViewer>
-    </Grid>
+        </Grid>
+    </Border>
 </Window>

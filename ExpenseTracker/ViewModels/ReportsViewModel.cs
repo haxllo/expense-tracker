@@ -13,6 +13,25 @@ using SkiaSharp;
 
 namespace ExpenseTracker.ViewModels
 {
+    public class CategoryLegendItem
+    {
+        public string Category { get; set; } = string.Empty;
+        public decimal Amount { get; set; }
+        public double Percentage { get; set; }
+        public string Color { get; set; } = string.Empty;
+    }
+
+    public class BudgetComparisonItem
+    {
+        public string Category { get; set; } = string.Empty;
+        public decimal Budget { get; set; }
+        public decimal Spent { get; set; }
+        public double Percentage { get; set; }
+        public string BarColor { get; set; } = "#009689";
+        public double BarWidth { get; set; }
+        public string PercentageColor { get; set; } = "#737373";
+    }
+
     public class ReportsViewModel : ViewModelBase
     {
         private DateTime _startDate;
@@ -27,6 +46,8 @@ namespace ExpenseTracker.ViewModels
         private decimal _totalAmount;
         private decimal _averageDaily;
         private string _topCategory;
+        private ObservableCollection<CategoryLegendItem> _categoryLegendItems;
+        private ObservableCollection<BudgetComparisonItem> _budgetComparisonItems;
 
         public ReportsViewModel()
         {
@@ -40,6 +61,8 @@ namespace ExpenseTracker.ViewModels
             _monthlyXAxis = new[] { new Axis { Labels = _monthlyLabels } };
             _dailyXAxis = new[] { new Axis { Labels = _dailyLabels } };
             _topCategory = "N/A";
+            _categoryLegendItems = new ObservableCollection<CategoryLegendItem>();
+            _budgetComparisonItems = new ObservableCollection<BudgetComparisonItem>();
 
             RefreshCommand = new RelayCommand(async _ => await LoadChartsDataAsync());
             
@@ -130,6 +153,18 @@ namespace ExpenseTracker.ViewModels
             set => SetProperty(ref _topCategory, value);
         }
 
+        public ObservableCollection<CategoryLegendItem> CategoryLegendItems
+        {
+            get => _categoryLegendItems;
+            set => SetProperty(ref _categoryLegendItems, value);
+        }
+
+        public ObservableCollection<BudgetComparisonItem> BudgetComparisonItems
+        {
+            get => _budgetComparisonItems;
+            set => SetProperty(ref _budgetComparisonItems, value);
+        }
+
         public ICommand RefreshCommand { get; }
 
         private async Task LoadChartsDataAsync()
@@ -143,6 +178,7 @@ namespace ExpenseTracker.ViewModels
                     CategoryPieChart = Array.Empty<ISeries>();
                     MonthlyBarChart = Array.Empty<ISeries>();
                     DailyLineChart = Array.Empty<ISeries>();
+                    CategoryLegendItems = new ObservableCollection<CategoryLegendItem>();
                     TotalAmount = 0;
                     AverageDaily = 0;
                     TopCategory = "No Data";
@@ -156,19 +192,55 @@ namespace ExpenseTracker.ViewModels
                     .OrderByDescending(x => x.Total)
                     .ToList();
 
+                var totalExpenses = categoryData.Sum(x => x.Total);
+                
+                // Define colors for categories
+                var categoryColors = new Dictionary<string, string>
+                {
+                    { "Food & Dining", "#FF6B35" },      // Orange
+                    { "Transportation", "#4A90E2" },     // Blue
+                    { "Shopping", "#9B59B6" },           // Purple
+                    { "Entertainment", "#E91E63" },      // Pink
+                    { "Bills & Utilities", "#F59E0B" },  // Amber
+                    { "Healthcare", "#EF4444" },         // Red
+                    { "Education", "#10B981" },          // Green
+                    { "Others", "#8F8F8F" },             // Grey
+                    { "Unknown", "#CCCCCC" }             // Light Grey
+                };
+
                 var pieSeriesList = new List<ISeries>();
+                var legendItems = new List<CategoryLegendItem>();
+                int colorIndex = 0;
+                var defaultColors = new[] { "#FF6B35", "#4A90E2", "#9B59B6", "#E91E63", "#F59E0B", "#EF4444", "#10B981", "#8F8F8F" };
+                
                 foreach (var item in categoryData)
                 {
+                    var color = categoryColors.ContainsKey(item.Category) 
+                        ? categoryColors[item.Category] 
+                        : defaultColors[colorIndex % defaultColors.Length];
+                    
                     pieSeriesList.Add(new PieSeries<double>
                     {
                         Name = item.Category,
                         Values = new[] { (double)item.Total },
                         DataLabelsSize = 14,
                         DataLabelsPosition = LiveChartsCore.Measure.PolarLabelsPosition.Middle,
-                        DataLabelsFormatter = point => $"₹{point.PrimaryValue:N0}"
+                        DataLabelsFormatter = point => $"${point.PrimaryValue:N0}",
+                        Fill = new SolidColorPaint(SKColor.Parse(color))
                     });
+                    
+                    legendItems.Add(new CategoryLegendItem
+                    {
+                        Category = item.Category,
+                        Amount = item.Total,
+                        Percentage = totalExpenses > 0 ? (double)(item.Total / totalExpenses * 100) : 0,
+                        Color = color
+                    });
+                    
+                    colorIndex++;
                 }
                 CategoryPieChart = pieSeriesList;
+                CategoryLegendItems = new ObservableCollection<CategoryLegendItem>(legendItems);
 
                 // Monthly Bar Chart (last 6 months)
                 var sixMonthsAgo = DateTime.Now.AddMonths(-6);
@@ -199,7 +271,7 @@ namespace ExpenseTracker.ViewModels
                         Values = monthlyData.Select(m => (double)m.Total).ToArray(),
                         DataLabelsSize = 12,
                         DataLabelsPosition = LiveChartsCore.Measure.DataLabelsPosition.Top,
-                        DataLabelsFormatter = point => $"₹{point.PrimaryValue:N0}",
+                        DataLabelsFormatter = point => $"${point.PrimaryValue:N0}",
                         Fill = new SolidColorPaint(SKColors.DeepSkyBlue),
                         MaxBarWidth = 50
                     }
@@ -241,6 +313,41 @@ namespace ExpenseTracker.ViewModels
                 var days = (EndDate - StartDate).Days + 1;
                 AverageDaily = days > 0 ? TotalAmount / days : 0;
                 TopCategory = categoryData.FirstOrDefault()?.Category ?? "N/A";
+
+                // Budget vs Actual
+                await dataService.InitializeDatabaseAsync();
+                var budgets = await dataService.GetBudgetsAsync(StartDate.Month, StartDate.Year);
+                var budgetItems = new List<BudgetComparisonItem>();
+
+                foreach (var budget in budgets.Where(b => b.MonthlyLimit > 0))
+                {
+                    var categoryExpenses = expenses
+                        .Where(e => e.CategoryId == budget.CategoryId)
+                        .Sum(e => e.Amount);
+
+                    var percentage = budget.MonthlyLimit > 0 
+                        ? (double)(categoryExpenses / budget.MonthlyLimit * 100) 
+                        : 0;
+
+                    var barColor = percentage > 100 ? "#EF4444" : 
+                                   percentage > 80 ? "#F59E0B" : 
+                                   "#009689";
+
+                    var percentageColor = percentage > 100 ? "#EF4444" : "#737373";
+
+                    budgetItems.Add(new BudgetComparisonItem
+                    {
+                        Category = budget.Category?.Name ?? "Unknown",
+                        Budget = budget.MonthlyLimit,
+                        Spent = categoryExpenses,
+                        Percentage = percentage,
+                        BarColor = barColor,
+                        BarWidth = Math.Min(percentage, 100) * 4,
+                        PercentageColor = percentageColor
+                    });
+                }
+
+                BudgetComparisonItems = new ObservableCollection<BudgetComparisonItem>(budgetItems.OrderByDescending(b => b.Spent));
             }
         }
     }

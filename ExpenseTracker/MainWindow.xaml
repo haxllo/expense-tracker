@@ -142,7 +142,7 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding Tag}"
+                                CornerRadius="10"
                                 Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="Center"
                                             VerticalAlignment="Center"/>
@@ -165,8 +165,7 @@
         
         <!-- Segmented Button Left -->
         <Style x:Key="SegmentedButtonLeft" TargetType="Button" BasedOn="{StaticResource SegmentedButtonBase}">
-            <Setter Property="Tag" Value="10,0,0,10"/>
-            <Setter Property="BorderThickness" Value="1,1,0,1"/>
+            <Setter Property="BorderThickness" Value="1"/>
         </Style>
         
         <!-- Segmented Button Middle -->
@@ -177,94 +176,12 @@
         
         <!-- Segmented Button Right -->
         <Style x:Key="SegmentedButtonRight" TargetType="Button" BasedOn="{StaticResource SegmentedButtonBase}">
-            <Setter Property="Tag" Value="0,10,10,0"/>
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
         
-        <!-- Clean Category ComboBox Style -->
-        <Style x:Key="CleanCategoryComboBox" TargetType="ComboBox">
+        <!-- Clean ComboBoxItem Style -->
+        <Style x:Key="CleanComboBoxItem" TargetType="ComboBoxItem">
             <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="Foreground" Value="#0A0A0A"/>
-            <Setter Property="BorderBrush" Value="#E5E7EB"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ComboBox">
-                        <Grid>
-                            <ToggleButton x:Name="ToggleButton"
-                                        Focusable="False"
-                                        IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                        ClickMode="Press"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                <ToggleButton.Template>
-                                    <ControlTemplate TargetType="ToggleButton">
-                                        <Border x:Name="Border"
-                                              Background="{TemplateBinding Background}"
-                                              BorderBrush="{TemplateBinding BorderBrush}"
-                                              BorderThickness="{TemplateBinding BorderThickness}"
-                                              CornerRadius="6">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <ContentPresenter Grid.Column="0"
-                                                                x:Name="ContentSite"
-                                                                IsHitTestVisible="False"
-                                                                Content="{Binding Path=SelectionBoxItem, RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"
-                                                                ContentTemplate="{Binding Path=SelectionBoxItemTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"
-                                                                ContentTemplateSelector="{Binding Path=ItemTemplateSelector, RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"
-                                                                Margin="12,0,0,0"
-                                                                VerticalAlignment="Center"
-                                                                HorizontalAlignment="Stretch"/>
-                                                <Path Grid.Column="1"
-                                                    x:Name="Arrow"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Center"
-                                                    Data="M 0 0 L 4 4 L 8 0 Z"
-                                                    Fill="#737373"
-                                                    Margin="0,0,12,0"/>
-                                            </Grid>
-                                        </Border>
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
-                            <Popup x:Name="Popup"
-                                 Placement="Bottom"
-                                 IsOpen="{TemplateBinding IsDropDownOpen}"
-                                 AllowsTransparency="True"
-                                 Focusable="False"
-                                 PopupAnimation="Slide">
-                                <Border x:Name="DropDownBorder"
-                                      Background="#FFFFFF"
-                                      BorderBrush="#E5E7EB"
-                                      BorderThickness="1"
-                                      CornerRadius="6"
-                                      Margin="0,4,0,0"
-                                      MinWidth="{TemplateBinding ActualWidth}">
-                                    <Border.Effect>
-                                        <DropShadowEffect Color="#000000" Opacity="0.1" ShadowDepth="2" BlurRadius="8"/>
-                                    </Border.Effect>
-                                    <ScrollViewer Margin="0" SnapsToDevicePixels="True">
-                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
-                                    </ScrollViewer>
-                                </Border>
-                            </Popup>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        
-        <!-- Clean Category ComboBoxItem Style -->
-        <Style x:Key="CleanCategoryComboBoxItem" TargetType="ComboBoxItem">
             <Setter Property="Foreground" Value="#0A0A0A"/>
             <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
             <Setter Property="FontSize" Value="13"/>
@@ -275,39 +192,36 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBoxItem">
                         <Border x:Name="Border"
-                              Background="Transparent"
-                              Padding="{TemplateBinding Padding}"
-                              Margin="4,2">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <ContentPresenter Grid.Column="0"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"/>
-                                <TextBlock Grid.Column="1"
-                                         x:Name="CheckMark"
-                                         Text="✓"
-                                         FontSize="14"
-                                         Foreground="#0A0A0A"
-                                         VerticalAlignment="Center"
-                                         Margin="12,0,0,0"
-                                         Visibility="Collapsed"/>
-                            </Grid>
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter 
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
                                 <Setter TargetName="Border" Property="Background" Value="#F5F5F5"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="Border" Property="Background" Value="#FFFFFF"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <!-- Clean ComboBox Style with Reduced Shadow -->
+        <Style x:Key="CleanComboBox" TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
+            <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp1"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="BorderBrush" Value="#4A4A4A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Window.Resources>
     <Grid Margin="32">
         <Grid.RowDefinitions>
@@ -329,41 +243,45 @@
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <!-- Primary CTA -->
-                <Button Command="{Binding AddExpenseCommand}"
-                       Style="{StaticResource AddExpenseButtonStyle}"
-                       Padding="20,0"
-                       Margin="0,0,12,0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="+" FontSize="20" FontWeight="SemiBold" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                        <TextBlock Text="Add Expense" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-                
                 <!-- Segmented Button Group -->
-                <StackPanel Orientation="Horizontal" Margin="0">
-                    <Button Command="{Binding RefreshCommand}"
-                           Style="{StaticResource SegmentedButtonLeft}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="↻" FontSize="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="Refresh" FontSize="13" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
+                <StackPanel Orientation="Horizontal" Margin="0,0,12,0">
                     <Button Command="{Binding ShowBudgetCommand}"
-                           Style="{StaticResource SegmentedButtonMiddle}">
+                           Style="{StaticResource SegmentedButtonLeft}"
+                           Margin="0,0,8,0">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="₹" FontSize="15" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <materialDesign:PackIcon Kind="WalletOutline" 
+                                                    Width="16" 
+                                                    Height="16" 
+                                                    Margin="0,0,6,0" 
+                                                    VerticalAlignment="Center"/>
                             <TextBlock Text="Budget" FontSize="13" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                     <Button Command="{Binding ShowReportsCommand}"
                            Style="{StaticResource SegmentedButtonRight}">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="📊" FontSize="15" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <materialDesign:PackIcon Kind="ChartBar" 
+                                                    Width="16" 
+                                                    Height="16" 
+                                                    Margin="0,0,6,0" 
+                                                    VerticalAlignment="Center"/>
                             <TextBlock Text="Reports" FontSize="13" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>
+                
+                <!-- Primary CTA -->
+                <Button Command="{Binding AddExpenseCommand}"
+                       Style="{StaticResource AddExpenseButtonStyle}"
+                       Padding="20,0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Plus" 
+                                                           Width="18" 
+                                                           Height="18" 
+                                                           Margin="0,0,8,0"/>
+                        <TextBlock Text="Add Expense" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Grid>
 
@@ -387,7 +305,7 @@
                                 materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
                     <TextBlock Text="Total Expenses" Style="{StaticResource StatsLabel}"/>
-                    <TextBlock Text="{Binding TotalExpenses, StringFormat=₹{0:N0}}" 
+                    <TextBlock Text="{Binding TotalExpenses, StringFormat=${0:N0}}" 
                               FontSize="28"
                               FontWeight="Bold"
                               Foreground="{StaticResource AccentMintBrush}"
@@ -409,7 +327,7 @@
                                 materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
                     <TextBlock Text="This Month" Style="{StaticResource StatsLabel}"/>
-                    <TextBlock Text="{Binding MonthlyTotal, StringFormat=₹{0:N0}}" 
+                    <TextBlock Text="{Binding MonthlyTotal, StringFormat=${0:N0}}" 
                               FontSize="28"
                               FontWeight="Bold"
                               Foreground="{StaticResource TextPrimaryBrush}"
@@ -431,7 +349,7 @@
                                 materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
                     <TextBlock Text="Last 7 Days" Style="{StaticResource StatsLabel}"/>
-                    <TextBlock Text="{Binding WeeklyTotal, StringFormat=₹{0:N0}}" 
+                    <TextBlock Text="{Binding WeeklyTotal, StringFormat=${0:N0}}" 
                               FontSize="28"
                               FontWeight="Bold"
                               Foreground="{StaticResource TextPrimaryBrush}"
@@ -453,7 +371,7 @@
                                 materialDesign:ElevationAssist.Elevation="Dp0">
                 <StackPanel>
                     <TextBlock Text="AVG Daily" Style="{StaticResource StatsLabel}"/>
-                    <TextBlock Text="{Binding AverageDaily, StringFormat=₹{0:N0}}" 
+                    <TextBlock Text="{Binding AverageDaily, StringFormat=${0:N0}}" 
                               FontSize="28"
                               FontWeight="Bold"
                               Foreground="{StaticResource TextPrimaryBrush}"
@@ -480,7 +398,7 @@
                               Foreground="{StaticResource TextPrimaryBrush}"
                               TextTrimming="CharacterEllipsis"
                               Margin="0,8,0,0"/>
-                    <TextBlock Text="₹1,234.50" 
+                    <TextBlock Text="$1,234.50" 
                               FontSize="14"
                               Foreground="{StaticResource TextSecondaryBrush}"
                               Margin="0,4,0,0"/>
@@ -499,8 +417,8 @@
 
             <!-- Search Box with Icon -->
             <Grid Grid.Column="0" Margin="0,0,12,0">
-                <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                <TextBox x:Name="SearchTextBox"
+                        Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                         Height="40"
                         Padding="35,0,12,0"
                         VerticalContentAlignment="Center"
@@ -508,21 +426,42 @@
                         Foreground="#0A0A0A"
                         BorderBrush="#E5E7EB"
                         materialDesign:HintAssist.Hint="Search expenses..."
-                        materialDesign:HintAssist.Foreground="#737373" />
-                <TextBlock Text="🔍" 
-                          FontSize="16"
-                          Foreground="#737373"
-                          VerticalAlignment="Center"
-                          HorizontalAlignment="Left"
-                          Margin="12,0,0,0"
-                          IsHitTestVisible="False"/>
+                        materialDesign:HintAssist.Foreground="#737373"
+                        materialDesign:HintAssist.IsFloating="False"
+                        materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                        materialDesign:TextFieldAssist.UnderlineBrush="#4A4A4A"
+                        FocusVisualStyle="{x:Null}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="BorderBrush" Value="#4A4A4A"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <materialDesign:PackIcon Kind="Magnify"
+                                        Width="18"
+                                        Height="18"
+                                        Foreground="#737373"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left"
+                                        Margin="12,0,0,0"
+                                        IsHitTestVisible="False"/>
             </Grid>
 
             <!-- Category Dropdown -->
             <ComboBox Grid.Column="1"
-                     Style="{StaticResource CleanCategoryComboBox}"
-                     ItemContainerStyle="{StaticResource CleanCategoryComboBoxItem}"
-                     Width="168"
+                     Style="{StaticResource CleanComboBox}"
+                     ItemContainerStyle="{StaticResource CleanComboBoxItem}"
+                     Height="40"
+                     FontSize="13"
+                     Padding="12,8"
+                     Background="#FFFFFF"
+                     BorderBrush="#E5E7EB"
+                     VerticalContentAlignment="Center"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
                      Margin="0,0,12,0">
                 <ComboBoxItem Content="All Categories" IsSelected="True"/>
                 <ComboBoxItem Content="Food &amp; Dining"/>
@@ -537,9 +476,15 @@
 
             <!-- Payment Method Dropdown -->
             <ComboBox Grid.Column="2"
-                     Style="{StaticResource CleanCategoryComboBox}"
-                     ItemContainerStyle="{StaticResource CleanCategoryComboBoxItem}"
-                     Width="168"
+                     Style="{StaticResource CleanComboBox}"
+                     ItemContainerStyle="{StaticResource CleanComboBoxItem}"
+                     Height="40"
+                     FontSize="13"
+                     Padding="12,8"
+                     Background="#FFFFFF"
+                     BorderBrush="#E5E7EB"
+                     VerticalContentAlignment="Center"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
                      Margin="0,0,12,0">
                 <ComboBoxItem Content="All Methods" IsSelected="True"/>
                 <ComboBoxItem Content="Cash"/>
@@ -636,7 +581,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=₹{0:N2}}" 
+                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=${0:N2}}" 
                                           Width="*">
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource ModernDataGridColumnHeader}">

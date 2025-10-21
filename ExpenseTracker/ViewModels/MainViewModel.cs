@@ -300,7 +300,7 @@ namespace ExpenseTracker.ViewModels
 
             var result = System.Windows.MessageBox.Show(
                 $"Are you sure you want to delete this expense?\n\n" +
-                $"Amount: ₹{SelectedExpense.Amount:N2}\n" +
+                $"Amount: ${SelectedExpense.Amount:N2}\n" +
                 $"Category: {SelectedExpense.Category?.Name}\n" +
                 $"Description: {SelectedExpense.Description}\n" +
                 $"Date: {SelectedExpense.Date:MMM d, yyyy}",

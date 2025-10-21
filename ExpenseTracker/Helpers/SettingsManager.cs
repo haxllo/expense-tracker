@@ -16,8 +16,9 @@ namespace ExpenseTracker.Helpers
         public class AppSettings
         {
             public string Theme { get; set; } = "Modern";
-            public string Currency { get; set; } = "₹";
+            public string Currency { get; set; } = "$";
             public string DateFormat { get; set; } = "dd/MM/yyyy";
+            public decimal MonthlyBudgetAllocation { get; set; } = 0;
         }
 
         public static AppSettings LoadSettings()

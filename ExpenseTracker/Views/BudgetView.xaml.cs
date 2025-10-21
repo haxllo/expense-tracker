@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Input;
 using ExpenseTracker.ViewModels;
 
 namespace ExpenseTracker.Views
@@ -11,6 +12,14 @@ namespace ExpenseTracker.Views
             var viewModel = new BudgetViewModel();
             viewModel.SetWindow(this);
             DataContext = viewModel;
+        }
+
+        private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
         }
     }
 }

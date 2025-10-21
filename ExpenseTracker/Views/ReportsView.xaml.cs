@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Input;
 using ExpenseTracker.ViewModels;
 
 namespace ExpenseTracker.Views
@@ -14,6 +15,14 @@ namespace ExpenseTracker.Views
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
         }
     }
 }

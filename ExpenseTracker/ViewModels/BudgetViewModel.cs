@@ -18,23 +18,38 @@ namespace ExpenseTracker.ViewModels
         private int _currentMonth;
         private int _currentYear;
         private Window? _window;
+        private string _selectedCategory = string.Empty;
+        private decimal? _newBudgetAmount;
+        private string _selectedPeriod = "Monthly";
+        private ObservableCollection<string> _availableCategories;
+        private decimal _masterMonthlyBudget;
 
         public BudgetViewModel()
         {
             _categoryBudgets = new ObservableCollection<CategoryBudget>();
+            _availableCategories = new ObservableCollection<string>();
             _currentMonth = DateTime.Now.Month;
             _currentYear = DateTime.Now.Year;
 
             SaveCommand = new RelayCommand(async _ => await SaveBudgetsAsync());
             CancelCommand = new RelayCommand(_ => Cancel());
+            AddBudgetCommand = new RelayCommand(_ => AddNewBudget(), _ => CanAddBudget());
+            DeleteBudgetCommand = new RelayCommand<CategoryBudget>(async budget => await DeleteBudget(budget));
 
+            LoadMasterBudget();
             _ = LoadBudgetsAsync();
         }
 
         public ObservableCollection<CategoryBudget> CategoryBudgets
         {
             get => _categoryBudgets;
-            set => SetProperty(ref _categoryBudgets, value);
+            set
+            {
+                if (SetProperty(ref _categoryBudgets, value))
+                {
+                    UpdateStatCards();
+                }
+            }
         }
 
         public CategoryBudget? SelectedBudget
@@ -43,8 +58,78 @@ namespace ExpenseTracker.ViewModels
             set => SetProperty(ref _selectedBudget, value);
         }
 
+        public string SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                if (SetProperty(ref _selectedCategory, value))
+                {
+                    System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+                }
+            }
+        }
+
+        public decimal? NewBudgetAmount
+        {
+            get => _newBudgetAmount;
+            set
+            {
+                if (SetProperty(ref _newBudgetAmount, value))
+                {
+                    System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+                }
+            }
+        }
+
+        public string SelectedPeriod
+        {
+            get => _selectedPeriod;
+            set => SetProperty(ref _selectedPeriod, value);
+        }
+
+        public ObservableCollection<string> AvailableCategories
+        {
+            get => _availableCategories;
+            set => SetProperty(ref _availableCategories, value);
+        }
+
+        public decimal MasterMonthlyBudget
+        {
+            get => _masterMonthlyBudget;
+            set
+            {
+                if (SetProperty(ref _masterMonthlyBudget, value))
+                {
+                    SaveMasterBudget();
+                    UpdateStatCards();
+                }
+            }
+        }
+
+        // Calculated properties
+        public decimal TotalBudget => CategoryBudgets.Sum(cb => cb.BudgetLimit);
+        
+        public decimal TotalSpent => CategoryBudgets.Sum(cb => cb.Spent);
+        
+        public decimal RemainingBudget => TotalBudget - TotalSpent;
+        
+        public decimal UnallocatedBudget => MasterMonthlyBudget - TotalBudget;
+        
+        public decimal TotalAvailable => MasterMonthlyBudget - TotalSpent;
+        
+        public double TotalPercentage => TotalBudget > 0 ? (double)(TotalSpent / TotalBudget * 100) : 0;
+        
+        public double AllocatedPercentage => MasterMonthlyBudget > 0 ? (double)(TotalBudget / MasterMonthlyBudget * 100) : 0;
+        
+        public bool HasMasterBudget => MasterMonthlyBudget > 0;
+        
+        public bool IsOverAllocated => TotalBudget > MasterMonthlyBudget && MasterMonthlyBudget > 0;
+
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
+        public ICommand AddBudgetCommand { get; }
+        public ICommand DeleteBudgetCommand { get; }
 
         public void SetWindow(Window window)
         {
@@ -63,12 +148,14 @@ namespace ExpenseTracker.ViewModels
                 var expenses = await dataService.GetExpensesAsync(currentMonthStart, DateTime.Now);
 
                 CategoryBudgets.Clear();
+                AvailableCategories.Clear();
+                
                 foreach (var category in categories)
                 {
                     var budget = budgets.FirstOrDefault(b => b.CategoryId == category.Id);
                     var spent = expenses.Where(e => e.CategoryId == category.Id).Sum(e => e.Amount);
 
-                    CategoryBudgets.Add(new CategoryBudget
+                    var categoryBudget = new CategoryBudget
                     {
                         CategoryId = category.Id,
                         CategoryName = category.Name,
@@ -77,9 +164,103 @@ namespace ExpenseTracker.ViewModels
                         BudgetLimit = budget?.MonthlyLimit ?? 0,
                         Spent = spent,
                         Month = _currentMonth,
-                        Year = _currentYear
-                    });
+                        Year = _currentYear,
+                        Period = "Monthly"
+                    };
+                    
+                    // Subscribe to property changes to update stat cards
+                    categoryBudget.PropertyChanged += (s, e) => UpdateStatCards();
+                    
+                    CategoryBudgets.Add(categoryBudget);
+                    AvailableCategories.Add(category.Name);
                 }
+                
+                UpdateStatCards();
+            }
+        }
+        
+        private void UpdateStatCards()
+        {
+            OnPropertyChanged(nameof(TotalBudget));
+            OnPropertyChanged(nameof(TotalSpent));
+            OnPropertyChanged(nameof(RemainingBudget));
+            OnPropertyChanged(nameof(TotalPercentage));
+            OnPropertyChanged(nameof(UnallocatedBudget));
+            OnPropertyChanged(nameof(TotalAvailable));
+            OnPropertyChanged(nameof(AllocatedPercentage));
+            OnPropertyChanged(nameof(HasMasterBudget));
+            OnPropertyChanged(nameof(IsOverAllocated));
+        }
+        
+        private void LoadMasterBudget()
+        {
+            var settings = SettingsManager.LoadSettings();
+            _masterMonthlyBudget = settings.MonthlyBudgetAllocation;
+        }
+        
+        private void SaveMasterBudget()
+        {
+            var settings = SettingsManager.LoadSettings();
+            settings.MonthlyBudgetAllocation = MasterMonthlyBudget;
+            SettingsManager.SaveSettings(settings);
+        }
+        
+        private bool CanAddBudget()
+        {
+            return !string.IsNullOrEmpty(SelectedCategory) && NewBudgetAmount.HasValue && NewBudgetAmount.Value > 0;
+        }
+        
+        private async void AddNewBudget()
+        {
+            if (!NewBudgetAmount.HasValue) return;
+            
+            var existingBudget = CategoryBudgets.FirstOrDefault(cb => cb.CategoryName == SelectedCategory);
+            if (existingBudget != null)
+            {
+                existingBudget.BudgetLimit = NewBudgetAmount.Value;
+                
+                // Save to database
+                using (var dataService = new DataService())
+                {
+                    await dataService.InitializeDatabaseAsync();
+                    
+                    var budget = new Budget
+                    {
+                        CategoryId = existingBudget.CategoryId,
+                        MonthlyLimit = NewBudgetAmount.Value,
+                        Month = _currentMonth,
+                        Year = _currentYear
+                    };
+                    
+                    await dataService.AddOrUpdateBudgetAsync(budget);
+                }
+                
+                MessageBox.Show($"Budget for {SelectedCategory} set to ${NewBudgetAmount.Value:N2}!", "Budget Added", 
+                              MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                UpdateStatCards();
+            }
+            
+            // Reset form
+            SelectedCategory = string.Empty;
+            NewBudgetAmount = null;
+        }
+        
+        private async Task DeleteBudget(CategoryBudget? budget)
+        {
+            if (budget == null) return;
+            
+            var result = MessageBox.Show(
+                $"Are you sure you want to remove the budget for {budget.CategoryName}?",
+                "Confirm Delete",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+                
+            if (result == MessageBoxResult.Yes)
+            {
+                budget.BudgetLimit = 0;
+                await SaveBudgetsAsync();
+                await LoadBudgetsAsync();
             }
         }
 
@@ -89,7 +270,7 @@ namespace ExpenseTracker.ViewModels
             {
                 using (var dataService = new DataService())
                 {
-                    foreach (var categoryBudget in CategoryBudgets.Where(cb => cb.BudgetLimit > 0))
+                    foreach (var categoryBudget in CategoryBudgets)
                     {
                         var budget = new Budget
                         {
@@ -102,15 +283,6 @@ namespace ExpenseTracker.ViewModels
 
                         await dataService.AddOrUpdateBudgetAsync(budget);
                     }
-                }
-
-                MessageBox.Show("Budgets saved successfully!", "Success",
-                              MessageBoxButton.OK, MessageBoxImage.Information);
-
-                if (_window != null)
-                {
-                    _window.DialogResult = true;
-                    _window.Close();
                 }
             }
             catch (Exception ex)
@@ -140,6 +312,7 @@ namespace ExpenseTracker.ViewModels
         private decimal _spent;
         private int _month;
         private int _year;
+        private string _period = "Monthly";
 
         public int CategoryId
         {
@@ -207,6 +380,12 @@ namespace ExpenseTracker.ViewModels
             set => SetProperty(ref _year, value);
         }
 
+        public string Period
+        {
+            get => _period;
+            set => SetProperty(ref _period, value);
+        }
+
         public decimal Remaining => BudgetLimit - Spent;
 
         public double PercentageUsed => BudgetLimit > 0 ? (double)(Spent / BudgetLimit * 100) : 0;
@@ -215,11 +394,11 @@ namespace ExpenseTracker.ViewModels
         {
             get
             {
-                if (BudgetLimit == 0) return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E0E0E0")); // Gray
+                if (BudgetLimit == 0) return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E5E5E5")); // Gray
                 var percentage = PercentageUsed;
-                if (percentage >= 100) return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F44336")); // Red
-                if (percentage >= 80) return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF9800"));  // Orange
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4CAF50")); // Green
+                if (percentage >= 100) return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EF4444")); // Red
+                if (percentage >= 80) return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F59E0B"));  // Amber
+                return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#009689")); // Teal
             }
         }
 
@@ -229,9 +408,9 @@ namespace ExpenseTracker.ViewModels
             {
                 if (BudgetLimit == 0) return "No budget set";
                 var percentage = PercentageUsed;
-                if (percentage >= 100) return "⚠️ Over Budget!";
-                if (percentage >= 80) return "⚠️ Warning";
-                return "✓ On Track";
+                if (percentage >= 100) return "Over Budget!";
+                if (percentage >= 80) return "Warning";
+                return "On Track";
             }
         }
     }
