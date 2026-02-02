@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        xmlns:helpers="clr-namespace:ExpenseTracker.Helpers"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Reports and Analytics" Height="780" Width="1100"
         WindowStartupLocation="CenterScreen"
@@ -17,6 +18,7 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto">
     <Window.Resources>
+        <helpers:PercentageToWidthConverter x:Key="PercentageToWidthConverter"/>
         <!-- Custom Button Style - No Shadow on Hover, Reduced Contrast -->
         <Style x:Key="NoShadowRaisedButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
             <Setter Property="Background" Value="#171717"/>
@@ -587,8 +589,14 @@
                                                    Height="8">
                                                 <Border Background="{Binding BarColor}"
                                                        CornerRadius="4"
-                                                       HorizontalAlignment="Left"
-                                                       Width="{Binding BarWidth}"/>
+                                                       HorizontalAlignment="Left">
+                                                    <Border.Width>
+                                                        <MultiBinding Converter="{StaticResource PercentageToWidthConverter}">
+                                                            <Binding RelativeSource="{RelativeSource AncestorType=Border, AncestorLevel=1}" Path="ActualWidth"/>
+                                                            <Binding Path="Percentage"/>
+                                                        </MultiBinding>
+                                                    </Border.Width>
+                                                </Border>
                                             </Border>
                                             
                                             <!-- Percentage -->

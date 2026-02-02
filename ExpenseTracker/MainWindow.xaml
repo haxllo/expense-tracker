@@ -6,8 +6,9 @@
         xmlns:helpers="clr-namespace:ExpenseTracker.Helpers"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Expense Tracker" Height="820" Width="1360"
+        Title="Expense Tracker" Height="850" Width="1360"
         WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
         Background="{StaticResource AppBackgroundBrush}"
         UseLayoutRounding="True"
         SnapsToDevicePixels="True"
@@ -19,6 +20,12 @@
         TextOptions.TextRenderingMode="Auto">
     <Window.Resources>
         <helpers:TextLengthToVisibilityConverter x:Key="TextLengthToVisibilityConverter"/>
+        <DropShadowEffect x:Key="DashboardCardShadow"
+                           Color="#000000"
+                           Opacity="0.06"
+                           BlurRadius="10"
+                           ShadowDepth="2"
+                           Direction="270"/>
         
         <!-- Custom Add Expense Button Style - No Shadow on Hover, Reduced Contrast -->
         <Style x:Key="AddExpenseButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
@@ -223,7 +230,7 @@
         </Style>
 
     </Window.Resources>
-    <Grid Margin="32">
+    <Grid Margin="32,42,32,32">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>   <!-- Header -->
             <RowDefinition Height="Auto"/>   <!-- Stats Cards -->
@@ -233,7 +240,7 @@
         </Grid.RowDefinitions>
 
         <!-- ========== HEADER ========== -->
-        <Grid Grid.Row="0" Margin="0,0,0,32">
+        <Grid Grid.Row="0" Margin="0,0,0,32" Background="Transparent" MouseLeftButtonDown="Header_MouseLeftButtonDown">
             <StackPanel>
                 <TextBlock Text="ExpenseTracker" Style="{StaticResource Heading1}"/>
                 <TextBlock Text="Track and manage your expenses efficiently" 
@@ -283,6 +290,19 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
+
+            <Button Width="32"
+                    Height="32"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0,-30,-15,0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Padding="0"
+                    Panel.ZIndex="2"
+                    Click="CloseButton_Click">
+                <TextBlock Text="✕" FontSize="16" Foreground="#737373"/>
+            </Button>
         </Grid>
 
         <!-- ========== STATS CARDS ========== -->
@@ -299,6 +319,7 @@
             <materialDesign:Card Grid.Column="0" 
                                 Margin="0,0,12,0" 
                                 Padding="20"
+                                Effect="{StaticResource DashboardCardShadow}"
                                 UniformCornerRadius="8"
                                 BorderBrush="#E5E7EB"
                                 BorderThickness="1"
@@ -321,6 +342,7 @@
             <materialDesign:Card Grid.Column="1" 
                                 Margin="0,0,12,0" 
                                 Padding="20"
+                                Effect="{StaticResource DashboardCardShadow}"
                                 UniformCornerRadius="8"
                                 BorderBrush="#E5E7EB"
                                 BorderThickness="1"
@@ -343,6 +365,7 @@
             <materialDesign:Card Grid.Column="2" 
                                 Margin="0,0,12,0" 
                                 Padding="20"
+                                Effect="{StaticResource DashboardCardShadow}"
                                 UniformCornerRadius="8"
                                 BorderBrush="#E5E7EB"
                                 BorderThickness="1"
@@ -365,6 +388,7 @@
             <materialDesign:Card Grid.Column="3" 
                                 Margin="0,0,12,0" 
                                 Padding="20"
+                                Effect="{StaticResource DashboardCardShadow}"
                                 UniformCornerRadius="8"
                                 BorderBrush="#E5E7EB"
                                 BorderThickness="1"
@@ -386,6 +410,7 @@
             <!-- Top Category -->
             <materialDesign:Card Grid.Column="4" 
                                 Padding="20"
+                                Effect="{StaticResource DashboardCardShadow}"
                                 UniformCornerRadius="8"
                                 BorderBrush="#E5E7EB"
                                 BorderThickness="1"
@@ -532,6 +557,7 @@
         <materialDesign:Card Grid.Row="3" 
                             Margin="0,0,0,16" 
                             Padding="20"
+                            Effect="{StaticResource DashboardCardShadow}"
                             UniformCornerRadius="8"
                             BorderBrush="#E5E7EB"
                             BorderThickness="1"
@@ -539,6 +565,7 @@
             <DataGrid 
                          ItemsSource="{Binding Expenses}" 
                          SelectedItem="{Binding SelectedExpense}"
+                         IsReadOnly="True"
                          Style="{StaticResource ModernDataGrid}"
                          RowStyle="{StaticResource ModernDataGridRow}"
                          ColumnHeaderStyle="{StaticResource ModernDataGridColumnHeader}"

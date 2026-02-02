@@ -397,7 +397,8 @@
                         <SolidColorBrush Color="{StaticResource AccentMintColor}" Opacity="0.1"/>
                     </Setter.Value>
                 </Setter>
-                <Setter Property="BorderBrush" Value="{StaticResource AccentMintBrush}"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
             </Trigger>
         </Style.Triggers>
     </Style>

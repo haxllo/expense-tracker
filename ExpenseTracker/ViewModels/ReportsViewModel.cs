@@ -28,7 +28,6 @@ namespace ExpenseTracker.ViewModels
         public decimal Spent { get; set; }
         public double Percentage { get; set; }
         public string BarColor { get; set; } = "#009689";
-        public double BarWidth { get; set; }
         public string PercentageColor { get; set; } = "#737373";
     }
 
@@ -329,11 +328,11 @@ namespace ExpenseTracker.ViewModels
                         ? (double)(categoryExpenses / budget.MonthlyLimit * 100) 
                         : 0;
 
-                    var barColor = percentage > 100 ? "#EF4444" : 
+                    var barColor = percentage >= 100 ? "#EF4444" : 
                                    percentage > 80 ? "#F59E0B" : 
                                    "#009689";
 
-                    var percentageColor = percentage > 100 ? "#EF4444" : "#737373";
+                    var percentageColor = percentage >= 100 ? "#EF4444" : "#737373";
 
                     budgetItems.Add(new BudgetComparisonItem
                     {
@@ -342,7 +341,6 @@ namespace ExpenseTracker.ViewModels
                         Spent = categoryExpenses,
                         Percentage = percentage,
                         BarColor = barColor,
-                        BarWidth = Math.Min(percentage, 100) * 4,
                         PercentageColor = percentageColor
                     });
                 }
