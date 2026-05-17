@@ -1,7 +1,5 @@
 # Expense Tracker - WPF Application
 
-Short description: A desktop app to track personal expenses, manage budgets, and view spending reports.
-
 A modern, feature-rich expense tracking application built with C# and WPF using the MVVM pattern.
 
 ## Features
